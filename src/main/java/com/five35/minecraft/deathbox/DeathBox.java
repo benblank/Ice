@@ -5,10 +5,13 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = "DeathBox")
 public class DeathBox {
+	public static final DeathBoxBlock BLOCK = new DeathBoxBlock();
+
 	@Instance
 	static DeathBox INSTANCE;
 
@@ -26,7 +29,8 @@ public class DeathBox {
 		this.logger = event.getModLog();
 
 		this.logger.debug("Registering block.");
-		// TODO: register block
+		GameRegistry.registerBlock(DeathBox.BLOCK, "deathbox");
+		GameRegistry.registerTileEntity(DeathBoxTileEntity.class, "deathbox");
 
 		this.logger.debug("Reading config.");
 		this.config = new DeathBoxConfiguration(event.getSuggestedConfigurationFile());
