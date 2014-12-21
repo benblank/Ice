@@ -57,18 +57,32 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float xOffset, final float yOffset, final float zOffset) {
-		// if !config.re-equip return false
+		final TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-		// if box.owner == player or config.insecure re-equip and return true
+		if (tileEntity instanceof DeathBoxTileEntity) {
+			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
+
+			if (DeathBox.INSTANCE.config.canRecover(deathBox.getOwnerName(), player)) {
+				deathBox.recover(player);
+
+				return true;
+			}
+		}
 
 		return false;
 	}
 
 	@Override
 	public void onBlockClicked(final World world, final int x, final int y, final int z, final EntityPlayer player) {
-		// if !config.punchable return
+		final TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-		// if box.owner == player or config.insecure drop items
+		if (tileEntity instanceof DeathBoxTileEntity) {
+			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
+
+			if (DeathBox.INSTANCE.config.canPop(deathBox.getOwnerName(), player)) {
+				deathBox.pop();
+			}
+		}
 	}
 
 	@Override
