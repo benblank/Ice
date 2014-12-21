@@ -64,6 +64,10 @@ public class DeathBoxConfiguration {
 		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of death boxes can be recovered by right-clicking them.").getString();
 		this.recovering = DeathBoxConfiguration.getSecurityType(recoveringValue, SecurityType.OWNER);
 
+		if (this.popping == SecurityType.NO && this.recovering == SecurityType.NO) {
+			DeathBox.INSTANCE.logger.warn("All actions disabled!  Death boxes cannot be removed without creative mode.  (That probably isn't what you want.)");
+		}
+
 		config.save();
 	}
 
