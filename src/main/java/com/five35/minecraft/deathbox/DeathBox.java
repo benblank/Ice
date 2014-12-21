@@ -32,7 +32,7 @@ public class DeathBox {
 	private Logger logger;
 
 	@EventHandler
-	public void init(final FMLInitializationEvent event) {
+	public void init(@SuppressWarnings("unused") final FMLInitializationEvent event) {
 		this.logger.debug("Registering event handler.");
 		MinecraftForge.EVENT_BUS.register(new LivingDeathEventHandler());
 	}

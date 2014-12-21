@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class LivingDeathEventHandler {
 	@SubscribeEvent
+	@SuppressWarnings("static-method")
 	public void onLivingDeathEvent(final LivingDeathEvent event) {
 		DeathBox.getLogger().info("Something died.");
 
