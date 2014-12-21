@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = "DeathBox")
@@ -33,7 +34,7 @@ public class DeathBox {
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		this.logger.debug("Registering event handler.");
-		// TODO: register event handler
+		MinecraftForge.EVENT_BUS.register(new LivingDeathEventHandler());
 	}
 
 	@EventHandler
