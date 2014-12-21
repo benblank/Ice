@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.bat eol=crlf
+*.gradle whitespace=indent-with-non-tab,space-before-tab,-tab-in-indent,tabwidth=4,trailing-space
+*.jar binary
+*.java diff=java whitespace=indent-with-non-tab,space-before-tab,-tab-in-indent,tabwidth=4,trailing-space
+*.lang whitespace=trailing-space
+*.png binary
+*.properties whitespace=trailing-space
+*_at.cfg whitespace=indent-with-non-tab,tab-in-indent,trailing-space
+
+mcmod.info whitespace=indent-with-non-tab,space-before-tab,-tab-in-indent,tabwidth=4,trailing-space
+pack.mcmeta whitespace=indent-with-non-tab,space-before-tab,-tab-in-indent,tabwidth=4,trailing-space
