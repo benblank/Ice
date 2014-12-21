@@ -9,6 +9,10 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(modid = "DeathBox")
 public class DeathBox {
+	@Instance
+	static DeathBox INSTANCE;
+
+	DeathBoxConfiguration config;
 	Logger logger;
 
 	@EventHandler
