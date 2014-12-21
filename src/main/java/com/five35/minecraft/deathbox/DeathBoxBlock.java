@@ -38,8 +38,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int metadata) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DeathBoxTileEntity();
 	}
 
 	@Override
