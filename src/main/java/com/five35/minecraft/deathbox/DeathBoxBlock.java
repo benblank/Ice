@@ -62,7 +62,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 
-			if (DeathBox.INSTANCE.config.canRecover(deathBox.getOwnerName(), player)) {
+			if (DeathBox.getConfig().canRecover(deathBox.getOwnerName(), player)) {
 				deathBox.recover(player);
 
 				return true;
@@ -79,7 +79,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 
-			if (DeathBox.INSTANCE.config.canPop(deathBox.getOwnerName(), player)) {
+			if (DeathBox.getConfig().canPop(deathBox.getOwnerName(), player)) {
 				deathBox.pop();
 			}
 		}

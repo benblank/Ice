@@ -16,7 +16,7 @@ public class DeathBoxConfiguration {
 		} catch (final IllegalArgumentException ex) {
 			final String message = String.format("Unrecognized security type '', defaulting to ''.");
 
-			DeathBox.INSTANCE.logger.warn(message, ex);
+			DeathBox.getLogger().warn(message, ex);
 
 			return fallback;
 		}
@@ -56,16 +56,16 @@ public class DeathBoxConfiguration {
 
 		config.setCategoryComment("security", "The allowable values for these actions are 'no' (completely disabled), 'owner' (only the player whose death created the box), 'team' (anyone on the dying player's team), or 'yes' (anyone).");
 
-		DeathBox.INSTANCE.logger.debug("Reading 'security.popping'.");
+		DeathBox.getLogger().debug("Reading 'security.popping'.");
 		final String poppingValue = config.get("security", "popping", "team", "Whether death boxes can be 'popped' by hitting them.").getString();
 		this.popping = DeathBoxConfiguration.getSecurityType(poppingValue, SecurityType.TEAM);
 
-		DeathBox.INSTANCE.logger.debug("Reading 'security.recovering'.");
+		DeathBox.getLogger().debug("Reading 'security.recovering'.");
 		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of death boxes can be recovered by right-clicking them.").getString();
 		this.recovering = DeathBoxConfiguration.getSecurityType(recoveringValue, SecurityType.OWNER);
 
 		if (this.popping == SecurityType.NO && this.recovering == SecurityType.NO) {
-			DeathBox.INSTANCE.logger.warn("All actions disabled!  Death boxes cannot be removed without creative mode.  (That probably isn't what you want.)");
+			DeathBox.getLogger().warn("All actions disabled!  Death boxes cannot be removed without creative mode.  (That probably isn't what you want.)");
 		}
 
 		config.save();

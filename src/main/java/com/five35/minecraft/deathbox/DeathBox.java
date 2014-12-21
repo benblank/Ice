@@ -13,10 +13,22 @@ public class DeathBox {
 	public static final DeathBoxBlock BLOCK = new DeathBoxBlock();
 
 	@Instance
-	static DeathBox INSTANCE;
+	private static DeathBox instance;
 
-	DeathBoxConfiguration config;
-	Logger logger;
+	static DeathBoxConfiguration getConfig() {
+		return DeathBox.getInstance().config;
+	}
+
+	public static DeathBox getInstance() {
+		return DeathBox.instance;
+	}
+
+	static Logger getLogger() {
+		return DeathBox.getInstance().logger;
+	}
+
+	private DeathBoxConfiguration config;
+	private Logger logger;
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
