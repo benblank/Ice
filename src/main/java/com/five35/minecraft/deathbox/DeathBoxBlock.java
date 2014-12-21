@@ -1,6 +1,5 @@
 package com.five35.minecraft.deathbox;
 
-import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -39,12 +38,6 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int metadata) {
 		return new DeathBoxTileEntity();
-	}
-
-	@Override
-	public ArrayList<ItemStack> getDrops(final World world, final int x, final int y, final int z, final int metadata, final int fortune) {
-		// TODO Auto-generated method stub
-		return super.getDrops(world, x, y, z, metadata, fortune);
 	}
 
 	@Override
