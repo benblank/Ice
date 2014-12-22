@@ -28,11 +28,16 @@ public class InventoryManagerRegistry {
 
 		for (final InventoryManager manager : InventoryManagerRegistry.managers.values()) {
 			try {
+				final String message = String.format("Extracting managed inventory '%s'.", manager.getName());
+				FMLCommonHandler.instance().getFMLLogger().debug(message);
+
 				final Map<Integer, ItemStack> slots = manager.getSlots(player);
 
 				if (!slots.isEmpty()) {
 					inventories.put(manager.getName(), slots);
 					manager.clearSlots(player);
+				} else {
+					FMLCommonHandler.instance().getFMLLogger().debug("Managed inventory was empty.");
 				}
 			} catch (final Exception ex) {
 				final String message = String.format("An error occurred while extracting the inventory managed by '%s'.", manager.getName());
