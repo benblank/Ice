@@ -17,6 +17,10 @@ public class LivingDeathEventHandler {
 		final String playerName = player.getCommandSenderName();
 		final World world = player.worldObj;
 
+		if (world.isRemote) {
+			return;
+		}
+
 		final int x = (int) player.posX;
 		final int y = (int) player.posY;
 		final int z = (int) player.posZ;

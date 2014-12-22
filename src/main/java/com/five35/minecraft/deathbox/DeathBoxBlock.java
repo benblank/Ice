@@ -58,6 +58,10 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float xOffset, final float yOffset, final float zOffset) {
+		if (world.isRemote) {
+			return false;
+		}
+
 		final TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		if (tileEntity instanceof DeathBoxTileEntity) {
@@ -75,6 +79,10 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public void onBlockClicked(final World world, final int x, final int y, final int z, final EntityPlayer player) {
+		if (world.isRemote) {
+			return;
+		}
+
 		final TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		if (tileEntity instanceof DeathBoxTileEntity) {
