@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -41,13 +42,13 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public ItemStack getPickBlock(final MovingObjectPosition target, final World world, final int x, final int y, final int z) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(final World world, final int x, final int y, final int z) {
 		return null;
 	}
 
 	@Override
-	public boolean isCollidable() {
-		return false;
+	public ItemStack getPickBlock(final MovingObjectPosition target, final World world, final int x, final int y, final int z) {
+		return null;
 	}
 
 	@Override
