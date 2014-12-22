@@ -14,8 +14,7 @@ public class DeathBoxConfiguration {
 		try {
 			return SecurityType.valueOf(value.toUpperCase());
 		} catch (final IllegalArgumentException ex) {
-			final String message = String.format("Unrecognized security type '', defaulting to ''.");
-
+			final String message = String.format("Unrecognized security type '%s', defaulting to '%s'.", value, fallback);
 			DeathBox.getLogger().warn(message, ex);
 
 			return fallback;
