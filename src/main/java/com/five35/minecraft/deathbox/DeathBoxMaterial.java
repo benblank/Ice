@@ -4,7 +4,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
 final class DeathBoxMaterial extends Material {
-	private static DeathBoxMaterial INSTANCE = new DeathBoxMaterial();
+	private static final DeathBoxMaterial INSTANCE = new DeathBoxMaterial();
 
 	static DeathBoxMaterial getInstance() {
 		return DeathBoxMaterial.INSTANCE;
