@@ -9,8 +9,10 @@ import net.minecraft.item.ItemStack;
 public interface InventoryManager {
 	/**
 	 * Empty all slots in the managed inventory.
+	 *
+	 * @param player the player whose managed inventory should be cleared
 	 */
-	void clearSlots();
+	void clearSlots(EntityPlayer player);
 
 	/**
 	 * Attempt to fill the managed inventory using the supplied slots.

@@ -32,7 +32,7 @@ public class InventoryManagerRegistry {
 
 				if (!slots.isEmpty()) {
 					inventories.put(manager.getName(), slots);
-					manager.clearSlots();
+					manager.clearSlots(player);
 				}
 			} catch (final Exception ex) {
 				final String message = String.format("An error occurred while extracting the inventory managed by '%s'.", manager.getName());
