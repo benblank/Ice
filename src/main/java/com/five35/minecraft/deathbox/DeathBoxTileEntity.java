@@ -1,8 +1,11 @@
 package com.five35.minecraft.deathbox;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,12 +16,27 @@ public class DeathBoxTileEntity extends TileEntity {
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
 	private String ownerName;
 
+	private void dropStacks(final Collection<ItemStack> stacks) {
+		for (final ItemStack stack : stacks) {
+			final Random random = this.worldObj.rand;
+			final double x = random.nextDouble() * 0.5 + this.xCoord;
+			final double y = random.nextDouble() * 0.5 + this.yCoord;
+			final double z = random.nextDouble() * 0.5 + this.zCoord;
+
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, x, y, z, stack));
+		}
+	}
+
 	public String getOwnerName() {
 		return this.ownerName;
 	}
 
 	public void pop() {
-		// drop contents on ground
+		for (final Map<Integer, ItemStack> slots : this.inventories.values()) {
+			this.dropStacks(slots.values());
+		}
+
+		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
