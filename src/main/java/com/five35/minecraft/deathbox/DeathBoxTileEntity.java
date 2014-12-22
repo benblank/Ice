@@ -32,6 +32,32 @@ public class DeathBoxTileEntity extends TileEntity {
 		// drop contents on ground
 	}
 
+	@Override
+	public void readFromNBT(final NBTTagCompound tag) {
+		super.readFromNBT(tag);
+
+		this.inventories.clear();
+
+		final NBTTagCompound inventoriesTag = tag.getCompoundTag("inventories");
+
+		for (final Object key : inventoriesTag.func_150296_c()) {
+			final String inventoryName = (String) key;
+			final NBTTagList inventoryTag = inventoriesTag.getTagList(inventoryName, tag.getId());
+			final Map<Integer, ItemStack> inventory = new HashMap<>();
+
+			for (int i = 0; i < inventoryTag.tagCount(); i++) {
+				final NBTTagCompound slotTag = inventoryTag.getCompoundTagAt(i);
+				final ItemStack stack = ItemStack.loadItemStackFromNBT(slotTag);
+
+				inventory.put((int) slotTag.getByte("slot"), stack);
+			}
+
+			this.inventories.put(inventoryName, inventory);
+		}
+
+		this.ownerName = tag.getString("ownerName");
+	}
+
 	public void recover(final EntityPlayer player) {
 		// add items to player, dropping stacks for conflicting slots
 
