@@ -35,11 +35,9 @@ public class DeathBoxTileEntity extends TileEntity {
 		// destroy death box
 	}
 
-	public void setOwnerName(final String ownerName) {
-		this.ownerName = ownerName;
-	}
-
 	public void store(final EntityPlayer player) {
+		this.ownerName = player.getCommandSenderName();
+
 		final Map<Integer, ItemStack> mainInventory = new HashMap<>();
 		final Map<Integer, ItemStack> armorInventory = new HashMap<>();
 
