@@ -2,8 +2,11 @@ package com.five35.minecraft.deathbox;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
@@ -46,5 +49,30 @@ public class DeathBoxTileEntity extends TileEntity {
 
 		DeathBoxTileEntity.arrayToMap(player.inventory.mainInventory, mainInventory);
 		DeathBoxTileEntity.arrayToMap(player.inventory.armorInventory, armorInventory);
+	}
+
+	@Override
+	public void writeToNBT(final NBTTagCompound tag) {
+		super.writeToNBT(tag);
+
+		final NBTTagCompound inventoriesTag = new NBTTagCompound();
+
+		for (final Entry<String, Map<Integer, ItemStack>> inventoryEntry : this.inventories.entrySet()) {
+			final NBTTagList inventoryTag = new NBTTagList();
+
+			for (final Entry<Integer, ItemStack> slotEntry : inventoryEntry.getValue().entrySet()) {
+				final NBTTagCompound slotTag = new NBTTagCompound();
+
+				slotEntry.getValue().writeToNBT(slotTag);
+				slotTag.setByte("slot", slotEntry.getKey().byteValue());
+
+				inventoryTag.appendTag(slotTag);
+			}
+
+			inventoriesTag.setTag(inventoryEntry.getKey(), inventoryTag);
+		}
+
+		tag.setTag("inventories", inventoriesTag);
+		tag.setString("ownerName", this.ownerName);
 	}
 }
