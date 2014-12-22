@@ -1,7 +1,9 @@
 package com.five35.minecraft.deathbox;
 
+import com.five35.minecraft.deathbox.inventorymanager.InventoryManagerRegistry;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -66,9 +68,10 @@ public class DeathBoxTileEntity extends TileEntity {
 	}
 
 	public void recover(final EntityPlayer player) {
-		// add items to player, dropping stacks for conflicting slots
+		final List<ItemStack> leftovers = InventoryManagerRegistry.injectInventories(player, this.inventories);
 
-		// destroy death box
+		this.dropStacks(leftovers);
+		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	public void store(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
