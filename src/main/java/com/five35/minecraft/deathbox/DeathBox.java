@@ -1,5 +1,7 @@
 package com.five35.minecraft.deathbox;
 
+import com.five35.minecraft.deathbox.inventorymanager.InventoryManagerRegistry;
+import com.five35.minecraft.deathbox.inventorymanager.VanillaInventoryManager;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -24,11 +26,16 @@ public class DeathBox {
 		return DeathBox.instance;
 	}
 
+	public static InventoryManagerRegistry getInventoryManagerRegistry() {
+		return DeathBox.getInstance().inventoryManagerRegistry;
+	}
+
 	static Logger getLogger() {
 		return DeathBox.getInstance().logger;
 	}
 
 	private DeathBoxConfiguration config;
+	private InventoryManagerRegistry inventoryManagerRegistry;
 	private Logger logger;
 
 	@EventHandler
@@ -40,6 +47,11 @@ public class DeathBox {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		this.logger = event.getModLog();
+
+		this.logger.debug("Registering inventory managers.");
+		this.inventoryManagerRegistry = new InventoryManagerRegistry(this.logger);
+		this.inventoryManagerRegistry.register(new VanillaInventoryManager(false));
+		this.inventoryManagerRegistry.register(new VanillaInventoryManager(true));
 
 		this.logger.debug("Registering block.");
 		GameRegistry.registerBlock(DeathBox.BLOCK, "deathbox");

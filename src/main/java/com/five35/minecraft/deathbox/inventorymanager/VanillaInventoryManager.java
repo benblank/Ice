@@ -10,14 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class VanillaInventoryManager implements InventoryManager {
-	static {
-		InventoryManagerRegistry.register(new VanillaInventoryManager(false));
-		InventoryManagerRegistry.register(new VanillaInventoryManager(true));
-	}
-
 	private final boolean isArmor;
 
-	private VanillaInventoryManager(final boolean isArmor) {
+	public VanillaInventoryManager(final boolean isArmor) {
 		this.isArmor = isArmor;
 	}
 

@@ -1,6 +1,5 @@
 package com.five35.minecraft.deathbox;
 
-import com.five35.minecraft.deathbox.inventorymanager.InventoryManagerRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +27,7 @@ public class LivingDeathEventHandler {
 		final int y = (int) player.posY;
 		final int z = (int) player.posZ;
 
-		final Map<String, Map<Integer, ItemStack>> inventories = InventoryManagerRegistry.extractAllInventories(player);
+		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getInventoryManagerRegistry().extractAllInventories(player);
 
 		if (inventories.isEmpty()) {
 			final String message = String.format("Player %s died at %d,%d,%d in dimension %s, but had empty pockets.", playerName, x, y, z, world.provider.getDimensionName());

@@ -1,7 +1,6 @@
 package com.five35.minecraft.deathbox.inventorymanager;
 
 import com.google.common.base.Preconditions;
-import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +9,15 @@ import java.util.Map.Entry;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.apache.logging.log4j.Logger;
 
 public class InventoryManagerRegistry {
-	private static Map<String, InventoryManager> managers = new HashMap<>();
+	private final Logger logger;
+	private final Map<String, InventoryManager> managers = new HashMap<>();
+
+	public InventoryManagerRegistry(final Logger logger) {
+		this.logger = logger;
+	}
 
 	/**
 	 * Remove all of a player's managed inventories and return them.
@@ -21,15 +26,15 @@ public class InventoryManagerRegistry {
 	 * @return a map of the managed inventories
 	 */
 	@Nonnull
-	public static Map<String, Map<Integer, ItemStack>> extractAllInventories(final EntityPlayer player) {
+	public Map<String, Map<Integer, ItemStack>> extractAllInventories(final EntityPlayer player) {
 		Preconditions.checkNotNull(player);
 
 		final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
 
-		for (final InventoryManager manager : InventoryManagerRegistry.managers.values()) {
+		for (final InventoryManager manager : this.managers.values()) {
 			try {
 				final String message = String.format("Extracting managed inventory '%s'.", manager.getName());
-				FMLCommonHandler.instance().getFMLLogger().debug(message);
+				this.logger.debug(message);
 
 				final Map<Integer, ItemStack> slots = manager.getSlots(player);
 
@@ -37,12 +42,12 @@ public class InventoryManagerRegistry {
 					inventories.put(manager.getName(), slots);
 					manager.clearSlots(player);
 				} else {
-					FMLCommonHandler.instance().getFMLLogger().debug("Managed inventory was empty.");
+					this.logger.debug("Managed inventory was empty.");
 				}
 			} catch (final Exception ex) {
 				final String message = String.format("An error occurred while extracting the inventory managed by '%s'.", manager.getName());
 
-				FMLCommonHandler.instance().getFMLLogger().error(message, ex);
+				this.logger.error(message, ex);
 			}
 		}
 
@@ -61,7 +66,7 @@ public class InventoryManagerRegistry {
 	 * @return a list of items which were not successfully merged
 	 */
 	@Nonnull
-	public static List<ItemStack> injectInventories(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+	public List<ItemStack> injectInventories(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
 		Preconditions.checkNotNull(player);
 		Preconditions.checkNotNull(inventories);
 
@@ -70,24 +75,24 @@ public class InventoryManagerRegistry {
 		for (final Entry<String, Map<Integer, ItemStack>> entry : inventories.entrySet()) {
 			final String name = entry.getKey();
 
-			if (!InventoryManagerRegistry.managers.containsKey(name)) {
+			if (!this.managers.containsKey(name)) {
 				final String message = String.format("Unrecognized inventory manager '%s'.", name);
 
-				FMLCommonHandler.instance().getFMLLogger().error(message);
+				this.logger.error(message);
 
 				leftovers.addAll(entry.getValue().values());
 
 				continue;
 			}
 
-			final InventoryManager manager = InventoryManagerRegistry.managers.get(name);
+			final InventoryManager manager = this.managers.get(name);
 
 			try {
 				leftovers.addAll(manager.fillSlots(player, entry.getValue()));
 			} catch (final Exception ex) {
 				final String message = String.format("An error occurred while filling the inventory managed by '%s'.", manager.getName());
 
-				FMLCommonHandler.instance().getFMLLogger().error(message, ex);
+				this.logger.error(message, ex);
 			}
 		}
 
@@ -101,17 +106,17 @@ public class InventoryManagerRegistry {
 	 * @throws IllegalArgumentException when an inventory manager with the same
 	 *         name has already been registered
 	 */
-	public static void register(final InventoryManager manager) {
+	public void register(final InventoryManager manager) {
 		Preconditions.checkNotNull(manager);
 
 		final String name = manager.getName();
 
-		if (InventoryManagerRegistry.managers.containsKey(name)) {
+		if (this.managers.containsKey(name)) {
 			final String message = String.format("An inventory manager with the name '%s' has already been registered.", name);
 
 			throw new IllegalArgumentException(message);
 		}
 
-		InventoryManagerRegistry.managers.put(name, manager);
+		this.managers.put(name, manager);
 	}
 }
