@@ -10,17 +10,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
-	private static void arrayToMap(final ItemStack[] array, final Map<Integer, ItemStack> map) {
-		for (int i = 0; i < array.length; i++) {
-			final ItemStack stack = array[i];
-
-			if (stack != null) {
-				map.put(i, stack.copy());
-				array[i] = null;
-			}
-		}
-	}
-
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
 	private String ownerName;
 
@@ -64,17 +53,10 @@ public class DeathBoxTileEntity extends TileEntity {
 		// destroy death box
 	}
 
-	public void store(final EntityPlayer player) {
+	public void store(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
 		this.ownerName = player.getCommandSenderName();
-
-		final Map<Integer, ItemStack> mainInventory = new HashMap<>();
-		final Map<Integer, ItemStack> armorInventory = new HashMap<>();
-
-		this.inventories.put("mainInventory", mainInventory);
-		this.inventories.put("armorInventory", armorInventory);
-
-		DeathBoxTileEntity.arrayToMap(player.inventory.mainInventory, mainInventory);
-		DeathBoxTileEntity.arrayToMap(player.inventory.armorInventory, armorInventory);
+		this.inventories.clear();
+		this.inventories.putAll(inventories);
 	}
 
 	@Override
