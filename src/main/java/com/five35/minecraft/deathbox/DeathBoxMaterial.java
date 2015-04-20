@@ -17,11 +17,6 @@ final class DeathBoxMaterial extends Material {
 	}
 
 	@Override
-	public boolean blocksMovement() {
-		return false;
-	}
-
-	@Override
 	public boolean getCanBlockGrass() {
 		return false;
 	}

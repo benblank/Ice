@@ -20,7 +20,7 @@ buildscript {
 
 apply plugin: "forge"
 
-version = "0.2"
+version = "0.2.1"
 group = "com.five35.minecraft.deathbox"
 archivesBaseName = "DeathBox"
 
