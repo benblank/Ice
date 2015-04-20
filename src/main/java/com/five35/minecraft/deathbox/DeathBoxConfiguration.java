@@ -1,5 +1,6 @@
 package com.five35.minecraft.deathbox;
 
+import com.mojang.authlib.GameProfile;
 import java.io.File;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
@@ -21,7 +22,7 @@ public class DeathBoxConfiguration {
 		}
 	}
 
-	private static boolean hasAccess(final SecurityType securityType, final String ownerName, final EntityPlayer player) {
+	private static boolean hasAccess(final SecurityType securityType, final GameProfile owner, final EntityPlayer player) {
 		if (securityType == SecurityType.NO) {
 			return false;
 		}
@@ -30,18 +31,18 @@ public class DeathBoxConfiguration {
 			return true;
 		}
 
-		if (ownerName.equals(player.getCommandSenderName())) {
+		if (owner.getId().equals(player.getGameProfile().getId())) {
 			return true;
 		}
 
 		if (securityType == SecurityType.TEAM) {
-			final Team ownerTeam = player.getWorldScoreboard().getPlayersTeam(ownerName);
+			final Team ownerTeam = player.getWorldScoreboard().getPlayersTeam(owner.getName());
 
 			if (ownerTeam == null) {
 				return false;
 			}
 
-			return ownerTeam.equals(player.getTeam());
+			return ownerTeam.isSameTeam(player.getTeam());
 		}
 
 		return false;
@@ -70,11 +71,11 @@ public class DeathBoxConfiguration {
 		config.save();
 	}
 
-	boolean canPop(final String ownerName, final EntityPlayer player) {
-		return DeathBoxConfiguration.hasAccess(this.popping, ownerName, player);
+	boolean canPop(final GameProfile owner, final EntityPlayer player) {
+		return DeathBoxConfiguration.hasAccess(this.popping, owner, player);
 	}
 
-	boolean canRecover(final String ownerName, final EntityPlayer player) {
-		return DeathBoxConfiguration.hasAccess(this.recovering, ownerName, player);
+	boolean canRecover(final GameProfile owner, final EntityPlayer player) {
+		return DeathBoxConfiguration.hasAccess(this.recovering, owner, player);
 	}
 }

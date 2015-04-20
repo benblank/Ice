@@ -1,5 +1,6 @@
 package com.five35.minecraft.deathbox;
 
+import com.mojang.authlib.GameProfile;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
-	private String ownerName;
+	private GameProfile owner;
 
 	private void dropStacks(final Collection<ItemStack> stacks) {
 		for (final ItemStack stack : stacks) {
@@ -28,8 +30,8 @@ public class DeathBoxTileEntity extends TileEntity {
 		}
 	}
 
-	public String getOwnerName() {
-		return this.ownerName;
+	public GameProfile getOwner() {
+		return this.owner;
 	}
 
 	public void pop() {
@@ -63,7 +65,7 @@ public class DeathBoxTileEntity extends TileEntity {
 			this.inventories.put(inventoryName, inventory);
 		}
 
-		this.ownerName = tag.getString("ownerName");
+		this.owner = NBTUtil.func_152459_a(tag.getCompoundTag("owner"));
 	}
 
 	public void recover(final EntityPlayer player) {
@@ -74,7 +76,7 @@ public class DeathBoxTileEntity extends TileEntity {
 	}
 
 	public void store(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
-		this.ownerName = player.getCommandSenderName();
+		this.owner = player.getGameProfile();
 		this.inventories.clear();
 		this.inventories.putAll(inventories);
 	}
@@ -84,6 +86,7 @@ public class DeathBoxTileEntity extends TileEntity {
 		super.writeToNBT(tag);
 
 		final NBTTagCompound inventoriesTag = new NBTTagCompound();
+		final NBTTagCompound ownerTag = new NBTTagCompound();
 
 		for (final Entry<String, Map<Integer, ItemStack>> inventoryEntry : this.inventories.entrySet()) {
 			final NBTTagList inventoryTag = new NBTTagList();
@@ -100,7 +103,9 @@ public class DeathBoxTileEntity extends TileEntity {
 			inventoriesTag.setTag(inventoryEntry.getKey(), inventoryTag);
 		}
 
+		NBTUtil.func_152460_a(ownerTag, this.owner);
+
 		tag.setTag("inventories", inventoriesTag);
-		tag.setString("ownerName", this.ownerName);
+		tag.setTag("owner", ownerTag);
 	}
 }

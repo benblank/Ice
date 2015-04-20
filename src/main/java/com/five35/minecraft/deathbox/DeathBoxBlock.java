@@ -1,5 +1,6 @@
 package com.five35.minecraft.deathbox;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -66,9 +67,10 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
+			final GameProfile owner = deathBox.getOwner();
 
-			if (DeathBox.getProxy().getConfig().canRecover(deathBox.getOwnerName(), player)) {
-				final String message = String.format("%s is recovering a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
+			if (DeathBox.getProxy().getConfig().canRecover(owner, player)) {
+				final String message = String.format("%s is recovering a death box left by %s.", owner.getName(), player.getCommandSenderName());
 				DeathBox.getProxy().getLogger().info(message);
 
 				deathBox.recover(player);
@@ -76,7 +78,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 				return true;
 			}
 
-			final String message = String.format("%s does not have permission to recover a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
+			final String message = String.format("%s does not have permission to recover a death box left by %s.", owner.getName(), player.getCommandSenderName());
 			DeathBox.getProxy().getLogger().info(message);
 		}
 
@@ -93,14 +95,15 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
+			final GameProfile owner = deathBox.getOwner();
 
-			if (DeathBox.getProxy().getConfig().canPop(deathBox.getOwnerName(), player)) {
-				final String message = String.format("%s is popping a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
+			if (DeathBox.getProxy().getConfig().canPop(owner, player)) {
+				final String message = String.format("%s is popping a death box left by %s.", owner.getName(), player.getCommandSenderName());
 				DeathBox.getProxy().getLogger().info(message);
 
 				deathBox.pop();
 			} else {
-				final String message = String.format("%s does not have permission to pop a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
+				final String message = String.format("%s does not have permission to pop a death box left by %s.", owner.getName(), player.getCommandSenderName());
 				DeathBox.getProxy().getLogger().info(message);
 			}
 		}
