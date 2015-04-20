@@ -3,7 +3,6 @@ package com.five35.minecraft.deathbox;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -50,6 +49,11 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	@Override
 	public ItemStack getPickBlock(final MovingObjectPosition target, final World world, final int x, final int y, final int z) {
 		return null;
+	}
+
+	@Override
+	public int getRenderType() {
+		return -1;
 	}
 
 	@Override
@@ -112,12 +116,6 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	@Override
 	public void onBlockExploded(final World world, final int x, final int y, final int z, final Explosion explosion) {
 		// DeathBox is unexplodable!
-	}
-
-	@Override
-	public void registerBlockIcons(final IIconRegister p_149651_1_) {
-		// TODO Auto-generated method stub
-		super.registerBlockIcons(p_149651_1_);
 	}
 
 	@Override
