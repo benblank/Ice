@@ -27,20 +27,20 @@ public class LivingDeathEventHandler {
 		final int y = (int) player.posY;
 		final int z = (int) player.posZ;
 
-		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getInventoryManagerRegistry().extractAllInventories(player);
+		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getProxy().getInventoryManagerRegistry().extractAllInventories(player);
 
 		if (inventories.isEmpty()) {
 			final String message = String.format("Player %s died at %d,%d,%d in dimension %s, but had empty pockets.", playerName, x, y, z, world.provider.getDimensionName());
-			DeathBox.getLogger().info(message);
+			DeathBox.getProxy().getLogger().info(message);
 		} else {
 			final String message = String.format("Player %s died at %d,%d,%d in dimension %s, saving inventory.", playerName, x, y, z, world.provider.getDimensionName());
-			DeathBox.getLogger().info(message);
+			DeathBox.getProxy().getLogger().info(message);
 
 			if (!world.isAirBlock(x, y, z)) {
 				// TODO: find appropriate position for death box
 			}
 
-			world.setBlock(x, y, z, DeathBox.BLOCK);
+			world.setBlock(x, y, z, CommonProxy.BLOCK);
 			((DeathBoxTileEntity) world.getTileEntity(x, y, z)).store(player, inventories);
 		}
 	}

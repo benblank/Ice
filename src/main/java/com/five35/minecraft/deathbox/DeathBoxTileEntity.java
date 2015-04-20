@@ -67,7 +67,7 @@ public class DeathBoxTileEntity extends TileEntity {
 	}
 
 	public void recover(final EntityPlayer player) {
-		final List<ItemStack> leftovers = DeathBox.getInventoryManagerRegistry().injectInventories(player, this.inventories);
+		final List<ItemStack> leftovers = DeathBox.getProxy().getInventoryManagerRegistry().injectInventories(player, this.inventories);
 
 		this.dropStacks(leftovers);
 		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);

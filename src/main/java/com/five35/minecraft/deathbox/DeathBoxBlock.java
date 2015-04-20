@@ -67,9 +67,9 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 
-			if (DeathBox.getConfig().canRecover(deathBox.getOwnerName(), player)) {
+			if (DeathBox.getProxy().getConfig().canRecover(deathBox.getOwnerName(), player)) {
 				final String message = String.format("%s is recovering a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
-				DeathBox.getLogger().info(message);
+				DeathBox.getProxy().getLogger().info(message);
 
 				deathBox.recover(player);
 
@@ -77,7 +77,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 			}
 
 			final String message = String.format("%s does not have permission to recover a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
-			DeathBox.getLogger().info(message);
+			DeathBox.getProxy().getLogger().info(message);
 		}
 
 		return false;
@@ -94,14 +94,14 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 		if (tileEntity instanceof DeathBoxTileEntity) {
 			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 
-			if (DeathBox.getConfig().canPop(deathBox.getOwnerName(), player)) {
+			if (DeathBox.getProxy().getConfig().canPop(deathBox.getOwnerName(), player)) {
 				final String message = String.format("%s is popping a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
-				DeathBox.getLogger().info(message);
+				DeathBox.getProxy().getLogger().info(message);
 
 				deathBox.pop();
 			} else {
 				final String message = String.format("%s does not have permission to pop a death box left by %s.", deathBox.getOwnerName(), player.getCommandSenderName());
-				DeathBox.getLogger().info(message);
+				DeathBox.getProxy().getLogger().info(message);
 			}
 		}
 	}
