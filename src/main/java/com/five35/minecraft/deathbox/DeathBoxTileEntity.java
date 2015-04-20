@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
@@ -30,8 +33,22 @@ public class DeathBoxTileEntity extends TileEntity {
 		}
 	}
 
+	@Override
+	public Packet getDescriptionPacket() {
+		final NBTTagCompound tag = new NBTTagCompound();
+
+		this.writeToNBT(tag);
+
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -1, tag);
+	}
+
 	public GameProfile getOwner() {
 		return this.owner;
+	}
+
+	@Override
+	public void onDataPacket(final NetworkManager manager, final S35PacketUpdateTileEntity packet) {
+		this.readFromNBT(packet.func_148857_g());
 	}
 
 	public void pop() {
