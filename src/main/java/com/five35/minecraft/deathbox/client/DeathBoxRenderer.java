@@ -43,12 +43,15 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 
 		GL11.glPushMatrix();
 
+		final float age = deathBox.getAge() + partialTicks;
+		final double bobHeight = 0.5 + Math.sin(age * Math.PI / 50) / 4;
+
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+		GL11.glTranslated(x + 0.5, y + bobHeight, z + 0.5);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScaled(-1, -1, 1);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		this.model.render(null, 0, 0, 0, 4 * (deathBox.getAge() + partialTicks), 0, 0.0625f);
+		this.model.render(null, 0, 0, 0, 3 * age, 0, 0.0625f);
 
 		GL11.glPopMatrix();
 	}
