@@ -122,4 +122,9 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	public boolean removedByPlayer(final World world, final EntityPlayer player, final int x, final int y, final int z) {
 		return false;
 	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 }
