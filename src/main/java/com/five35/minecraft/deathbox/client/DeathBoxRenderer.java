@@ -23,7 +23,7 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float p_147500_8_) {
+	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float partialTicks) {
 		ResourceLocation texture = AbstractClientPlayer.locationStevePng;
 
 		final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
@@ -48,7 +48,7 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScaled(-1, -1, 1);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		this.model.render(null, 0, 0, 0, 0, 0, 0.0625f);
+		this.model.render(null, 0, 0, 0, 4 * (deathBox.getAge() + partialTicks), 0, 0.0625f);
 
 		GL11.glPopMatrix();
 	}

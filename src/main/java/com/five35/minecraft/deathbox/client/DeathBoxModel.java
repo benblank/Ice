@@ -17,4 +17,10 @@ public class DeathBoxModel extends ModelBase {
 		this.setRotationAngles(x, y, z, yaw, pitch, scale, entity);
 		this.renderer.render(scale);
 	}
+
+	@Override
+	public void setRotationAngles(final float x, final float y, final float z, final float yaw, final float pitch, final float scale, final Entity entity) {
+		this.renderer.rotateAngleX = (float) (pitch * Math.PI / 180);
+		this.renderer.rotateAngleY = (float) (yaw * Math.PI / 180);
+	}
 }
