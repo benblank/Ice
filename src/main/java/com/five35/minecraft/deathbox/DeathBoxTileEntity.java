@@ -19,7 +19,10 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
+	private int age;
+
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
+
 	private GameProfile owner;
 
 	private void dropStacks(final Collection<ItemStack> stacks) {
@@ -31,6 +34,10 @@ public class DeathBoxTileEntity extends TileEntity {
 
 			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, x, y, z, stack));
 		}
+	}
+
+	public int getAge() {
+		return this.age;
 	}
 
 	@Override
@@ -62,6 +69,8 @@ public class DeathBoxTileEntity extends TileEntity {
 	@Override
 	public void readFromNBT(final NBTTagCompound tag) {
 		super.readFromNBT(tag);
+
+		this.age = tag.getInteger("age");
 
 		this.inventories.clear();
 
@@ -99,6 +108,11 @@ public class DeathBoxTileEntity extends TileEntity {
 	}
 
 	@Override
+	public void updateEntity() {
+		this.age++;
+	}
+
+	@Override
 	public void writeToNBT(final NBTTagCompound tag) {
 		super.writeToNBT(tag);
 
@@ -122,6 +136,7 @@ public class DeathBoxTileEntity extends TileEntity {
 
 		NBTUtil.func_152460_a(ownerTag, this.owner);
 
+		tag.setInteger("age", this.age);
 		tag.setTag("inventories", inventoriesTag);
 		tag.setTag("owner", ownerTag);
 	}
