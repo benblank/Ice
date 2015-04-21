@@ -23,15 +23,19 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float p_147500_8_) {
+		ResourceLocation texture = AbstractClientPlayer.locationStevePng;
+
 		final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
-		final Map<Type, MinecraftProfileTexture> profileTextures = this.skinManager.func_152788_a(deathBox.getOwner());
+		final GameProfile owner = deathBox.getOwner();
 
-		final ResourceLocation texture;
-
-		if (profileTextures.containsKey(Type.SKIN)) {
-			texture = this.skinManager.func_152792_a(profileTextures.get(Type.SKIN), Type.SKIN);
+		if (owner == null) {
+			DeathBox.getProxy().getLogger().warn("Rendering death box with no owner at %d,%d,%d!", x, y, z);
 		} else {
-			texture = AbstractClientPlayer.locationStevePng;
+			final Map<Type, MinecraftProfileTexture> profileTextures = this.skinManager.func_152788_a(owner);
+
+			if (profileTextures.containsKey(Type.SKIN)) {
+				texture = this.skinManager.func_152792_a(profileTextures.get(Type.SKIN), Type.SKIN);
+			}
 		}
 
 		this.bindTexture(texture);
