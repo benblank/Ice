@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
@@ -91,7 +92,7 @@ public class DeathBoxTileEntity extends TileEntity {
 			this.inventories.put(inventoryName, inventory);
 		}
 
-		this.owner = NBTUtil.func_152459_a(tag.getCompoundTag("owner"));
+		this.setOwner(NBTUtil.func_152459_a(tag.getCompoundTag("owner")));
 	}
 
 	public void recover(final EntityPlayer player) {
@@ -101,8 +102,36 @@ public class DeathBoxTileEntity extends TileEntity {
 		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 	}
 
+	private void setOwner(final GameProfile owner) {
+		this.owner = owner;
+
+		this.markDirty();
+
+		if (this.owner == null) {
+			return;
+		}
+
+		final MinecraftServer server = MinecraftServer.getServer();
+
+		if (server == null) {
+			return;
+		}
+
+		if (!this.owner.isComplete() || this.owner.getProperties().get("textures").isEmpty()) {
+			final GameProfile cachedOwner = server.func_152358_ax().func_152655_a(this.owner.getName());
+
+			if (cachedOwner != null) {
+				this.owner = cachedOwner;
+
+				if (this.owner.getProperties().get("textures").isEmpty()) {
+					this.owner = server.func_147130_as().fillProfileProperties(this.owner, true);
+				}
+			}
+		}
+	}
+
 	public void store(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
-		this.owner = player.getGameProfile();
+		this.setOwner(player.getGameProfile());
 		this.inventories.clear();
 		this.inventories.putAll(inventories);
 	}
