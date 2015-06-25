@@ -1,11 +1,11 @@
 package com.five35.minecraft.deathbox;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler {
 	private static enum Validity {

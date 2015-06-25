@@ -3,12 +3,12 @@ package com.five35.minecraft.deathbox;
 import com.five35.minecraft.deathbox.inventorymanager.BaublesInventoryManager;
 import com.five35.minecraft.deathbox.inventorymanager.InventoryManagerRegistry;
 import com.five35.minecraft.deathbox.inventorymanager.VanillaInventoryManager;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 public class CommonProxy {

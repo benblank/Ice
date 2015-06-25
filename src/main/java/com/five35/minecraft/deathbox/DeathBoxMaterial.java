@@ -17,7 +17,7 @@ final class DeathBoxMaterial extends Material {
 	}
 
 	@Override
-	public boolean getCanBlockGrass() {
+	public boolean blocksLight() {
 		return false;
 	}
 
