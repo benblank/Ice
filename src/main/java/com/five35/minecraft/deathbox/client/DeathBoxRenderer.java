@@ -6,8 +6,9 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import java.util.Map;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import java.util.UUID;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -23,8 +24,8 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float partialTicks) {
-		ResourceLocation texture = AbstractClientPlayer.locationStevePng;
+	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+		ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin(new UUID(0, 0));
 
 		final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 		final GameProfile owner = deathBox.getOwner();
@@ -32,10 +33,12 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 		if (owner == null) {
 			DeathBox.getProxy().getLogger().warn("Rendering death box with no owner at %d,%d,%d!", x, y, z);
 		} else {
-			final Map<Type, MinecraftProfileTexture> profileTextures = this.skinManager.func_152788_a(owner);
+			final Map<Type, MinecraftProfileTexture> profileTextures = this.skinManager.loadSkinFromCache(owner);
 
 			if (profileTextures.containsKey(Type.SKIN)) {
-				texture = this.skinManager.func_152792_a(profileTextures.get(Type.SKIN), Type.SKIN);
+				texture = this.skinManager.loadSkin(profileTextures.get(Type.SKIN), Type.SKIN);
+			} else {
+				texture = DefaultPlayerSkin.getDefaultSkin(owner.getId());
 			}
 		}
 
