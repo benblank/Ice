@@ -9,6 +9,19 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler {
+	private static boolean createDeathBox(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+		final World world = player.worldObj;
+
+		if (world.setBlockState(position, CommonProxy.BLOCK.getDefaultState())) {
+			((DeathBoxTileEntity) world.getTileEntity(position)).store(player, inventories);
+			DeathBox.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
+
+			return true;
+		}
+
+		return false;
+	}
+
 	@SubscribeEvent
 	@SuppressWarnings("static-method")
 	public void onLivingDeathEvent(final LivingDeathEvent event) {
@@ -25,7 +38,7 @@ public class LivingDeathEventHandler {
 
 		final String playerName = player.getCommandSenderEntity().getName();
 		final BlockPos position = player.getPosition().offsetUp();
-		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getProxy().getInventoryManagerRegistry().extractAllInventories(player);
+		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getProxy().getInventoryManagerRegistry().getAllInventories(player);
 
 		if (inventories.isEmpty()) {
 			final String message = String.format("Player %s died at %s in dimension %s, but had empty pockets.", playerName, position, world.provider.getDimensionName());
@@ -44,9 +57,7 @@ public class LivingDeathEventHandler {
 						final BlockPos target = position.add(dx, dy, dz);
 
 						if (world.getBlockState(target).getBlock().isReplaceable(world, target)) {
-							if (world.setBlockState(target, CommonProxy.BLOCK.getDefaultState())) {
-								((DeathBoxTileEntity) world.getTileEntity(target)).store(player, inventories);
-
+							if (LivingDeathEventHandler.createDeathBox(target, player, inventories)) {
 								return;
 							}
 						}
@@ -55,11 +66,6 @@ public class LivingDeathEventHandler {
 			}
 		}
 
-		// If no replaceable block was found nearby, just replace whatever the player was standing in.
-		if (world.setBlockState(position, CommonProxy.BLOCK.getDefaultState())) {
-			((DeathBoxTileEntity) world.getTileEntity(position)).store(player, inventories);
-
-			return;
-		}
+		LivingDeathEventHandler.createDeathBox(position, player, inventories);
 	}
 }

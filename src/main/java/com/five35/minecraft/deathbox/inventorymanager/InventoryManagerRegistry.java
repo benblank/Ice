@@ -1,5 +1,6 @@
 package com.five35.minecraft.deathbox.inventorymanager;
 
+import java.util.Collection;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,27 +21,41 @@ public class InventoryManagerRegistry {
 	}
 
 	/**
-	 * Remove all of a player's managed inventories and return them.
+	 * Clear the selected managed inventories for a player.
+	 * 
+	 * @param player the player whose inventories should be cleared
+	 * @param inventories the names of the managed inventories to clear
+	 */
+	public void clearInventories(final EntityPlayer player, Collection<String> inventories) {
+		Preconditions.checkNotNull(player);
+		Preconditions.checkNotNull(inventories);
+
+		for (final String inventory : inventories) {
+			this.managers.get(inventory).clearSlots(player);
+		}
+	}
+
+	/**
+	 * Get all of a player's managed inventories and return them.
 	 *
-	 * @param player the player whose inventories to extract
+	 * @param player the player whose inventories to get
 	 * @return a map of the managed inventories
 	 */
 	@Nonnull
-	public Map<String, Map<Integer, ItemStack>> extractAllInventories(final EntityPlayer player) {
+	public Map<String, Map<Integer, ItemStack>> getAllInventories(final EntityPlayer player) {
 		Preconditions.checkNotNull(player);
 
 		final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
 
 		for (final InventoryManager manager : this.managers.values()) {
 			try {
-				final String message = String.format("Extracting managed inventory '%s'.", manager.getName());
+				final String message = String.format("Getting managed inventory '%s'.", manager.getName());
 				this.logger.debug(message);
 
 				final Map<Integer, ItemStack> slots = manager.getSlots(player);
 
 				if (!slots.isEmpty()) {
 					inventories.put(manager.getName(), slots);
-					manager.clearSlots(player);
 				} else {
 					this.logger.debug("Managed inventory was empty.");
 				}
