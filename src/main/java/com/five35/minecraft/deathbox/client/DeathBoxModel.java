@@ -9,6 +9,9 @@ public class DeathBoxModel extends ModelBase {
 	private final ModelRenderer hat;
 
 	public DeathBoxModel() {
+		this.textureHeight = 64;
+		this.textureWidth = 64;
+
 		this.head = new ModelRenderer(this);
 		this.head.addBox(-4, -4, -4, 8, 8, 8);
 
