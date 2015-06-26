@@ -20,7 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
 public class DeathBoxTileEntity extends TileEntity {
-	private int age;
+	private long age;
 
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
 
@@ -29,16 +29,16 @@ public class DeathBoxTileEntity extends TileEntity {
 	private void dropStacks(final Collection<ItemStack> stacks) {
 		for (final ItemStack stack : stacks) {
 			final Random random = this.worldObj.rand;
-			final double x = random.nextDouble() * 0.5 + this.xCoord;
-			final double y = random.nextDouble() * 0.5 + this.yCoord;
-			final double z = random.nextDouble() * 0.5 + this.zCoord;
+			final double x = random.nextDouble() * 0.5 + this.pos.getX();
+			final double y = random.nextDouble() * 0.5 + this.pos.getY();
+			final double z = random.nextDouble() * 0.5 + this.pos.getZ();
 
 			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, x, y, z, stack));
 		}
 	}
 
-	public int getAge() {
-		return this.age;
+	public long getAge() {
+		return this.worldObj.getTotalWorldTime() - this.age;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class DeathBoxTileEntity extends TileEntity {
 
 		this.writeToNBT(tag);
 
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -1, tag);
+		return new S35PacketUpdateTileEntity(this.pos, -1, tag);
 	}
 
 	public GameProfile getOwner() {
@@ -56,7 +56,7 @@ public class DeathBoxTileEntity extends TileEntity {
 
 	@Override
 	public void onDataPacket(final NetworkManager manager, final S35PacketUpdateTileEntity packet) {
-		this.readFromNBT(packet.func_148857_g());
+		this.readFromNBT(packet.getNbtCompound());
 	}
 
 	public void pop() {
@@ -64,20 +64,20 @@ public class DeathBoxTileEntity extends TileEntity {
 			this.dropStacks(slots.values());
 		}
 
-		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+		this.worldObj.setBlockToAir(this.pos);
 	}
 
 	@Override
 	public void readFromNBT(final NBTTagCompound tag) {
 		super.readFromNBT(tag);
 
-		this.age = tag.getInteger("age");
+		this.age = tag.getLong("age");
 
 		this.inventories.clear();
 
 		final NBTTagCompound inventoriesTag = tag.getCompoundTag("inventories");
 
-		for (final Object key : inventoriesTag.func_150296_c()) {
+		for (final Object key : inventoriesTag.getKeySet()) {
 			final String inventoryName = (String) key;
 			final NBTTagList inventoryTag = inventoriesTag.getTagList(inventoryName, tag.getId());
 			final Map<Integer, ItemStack> inventory = new HashMap<>();
@@ -92,14 +92,14 @@ public class DeathBoxTileEntity extends TileEntity {
 			this.inventories.put(inventoryName, inventory);
 		}
 
-		this.setOwner(NBTUtil.func_152459_a(tag.getCompoundTag("owner")));
+		this.setOwner(NBTUtil.readGameProfileFromNBT(tag.getCompoundTag("owner")));
 	}
 
 	public void recover(final EntityPlayer player) {
 		final List<ItemStack> leftovers = DeathBox.getProxy().getInventoryManagerRegistry().injectInventories(player, this.inventories);
 
 		this.dropStacks(leftovers);
-		this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+		this.worldObj.setBlockToAir(this.pos);
 	}
 
 	private void setOwner(final GameProfile owner) {
@@ -118,27 +118,23 @@ public class DeathBoxTileEntity extends TileEntity {
 		}
 
 		if (!this.owner.isComplete() || this.owner.getProperties().get("textures").isEmpty()) {
-			final GameProfile cachedOwner = server.func_152358_ax().func_152655_a(this.owner.getName());
+			final GameProfile cachedOwner = server.getPlayerProfileCache().getGameProfileForUsername(this.owner.getName());
 
 			if (cachedOwner != null) {
 				this.owner = cachedOwner;
 
 				if (this.owner.getProperties().get("textures").isEmpty()) {
-					this.owner = server.func_147130_as().fillProfileProperties(this.owner, true);
+					this.owner = server.getMinecraftSessionService().fillProfileProperties(this.owner, true);
 				}
 			}
 		}
 	}
 
 	public void store(final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+		this.age = player.worldObj.getTotalWorldTime();
 		this.setOwner(player.getGameProfile());
 		this.inventories.clear();
 		this.inventories.putAll(inventories);
-	}
-
-	@Override
-	public void updateEntity() {
-		this.age++;
 	}
 
 	@Override
@@ -163,9 +159,9 @@ public class DeathBoxTileEntity extends TileEntity {
 			inventoriesTag.setTag(inventoryEntry.getKey(), inventoryTag);
 		}
 
-		NBTUtil.func_152460_a(ownerTag, this.owner);
+		NBTUtil.writeGameProfile(ownerTag, this.owner);
 
-		tag.setInteger("age", this.age);
+		tag.setLong("age", this.age);
 		tag.setTag("inventories", inventoriesTag);
 		tag.setTag("owner", ownerTag);
 	}
