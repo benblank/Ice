@@ -1,0 +1,13 @@
+[
+	{
+		"modid": "${modid}",
+		"name": "Death Box",
+		"description": "Keeps your inventory safe when you die.",
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"url": "https://github.com/benblank/DeathBox",
+		"authorList": [ "Ben \"535\" Blank" ],
+		"requiredMods": [ "Forge" ],
+		"useDependencyInformation": "true"
+	}
+]
