@@ -10,12 +10,11 @@ import java.util.UUID;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class DeathBoxRenderer extends TileEntitySpecialRenderer {
+public class DeathBoxRenderer extends TileEntitySpecialRenderer<DeathBoxTileEntity> {
 	private final DeathBoxModel model = new DeathBoxModel();
 	private final SkinManager skinManager;
 
@@ -24,10 +23,9 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+	public void renderTileEntityAt(final DeathBoxTileEntity deathBox, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
 		ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin(new UUID(0, 0));
 
-		final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
 		final GameProfile owner = deathBox.getOwner();
 
 		if (owner == null) {

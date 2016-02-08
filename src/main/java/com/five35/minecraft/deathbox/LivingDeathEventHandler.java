@@ -37,7 +37,7 @@ public class LivingDeathEventHandler {
 		}
 
 		final String playerName = player.getCommandSenderEntity().getName();
-		final BlockPos position = player.getPosition().offsetUp();
+		final BlockPos position = player.getPosition().up();
 		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getProxy().getInventoryManagerRegistry().getAllInventories(player);
 
 		if (inventories.isEmpty()) {

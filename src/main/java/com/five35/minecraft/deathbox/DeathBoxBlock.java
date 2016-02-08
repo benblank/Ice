@@ -50,7 +50,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public ItemStack getPickBlock(final MovingObjectPosition target, final World world, final BlockPos position) {
+	public ItemStack getPickBlock(final MovingObjectPosition target, final World world, final BlockPos position, EntityPlayer player) {
 		return null;
 	}
 
