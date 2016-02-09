@@ -1,16 +1,16 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
-final class DeathBoxMaterial extends Material {
-	private static final DeathBoxMaterial INSTANCE = new DeathBoxMaterial();
+final class IceMaterial extends Material {
+	private static final IceMaterial INSTANCE = new IceMaterial();
 
-	static DeathBoxMaterial getInstance() {
-		return DeathBoxMaterial.INSTANCE;
+	static IceMaterial getInstance() {
+		return IceMaterial.INSTANCE;
 	}
 
-	private DeathBoxMaterial() {
+	private IceMaterial() {
 		super(MapColor.airColor);
 
 		this.setImmovableMobility();

@@ -1,7 +1,7 @@
-package com.five35.minecraft.deathbox.client;
+package com.five35.minecraft.ice.client;
 
-import com.five35.minecraft.deathbox.DeathBox;
-import com.five35.minecraft.deathbox.DeathBoxTileEntity;
+import com.five35.minecraft.ice.Ice;
+import com.five35.minecraft.ice.IceTileEntity;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -14,22 +14,22 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class DeathBoxRenderer extends TileEntitySpecialRenderer<DeathBoxTileEntity> {
-	private final DeathBoxModel model = new DeathBoxModel();
+public class IceRenderer extends TileEntitySpecialRenderer<IceTileEntity> {
+	private final IceModel model = new IceModel();
 	private final SkinManager skinManager;
 
-	public DeathBoxRenderer(final SkinManager skinManager) {
+	public IceRenderer(final SkinManager skinManager) {
 		this.skinManager = skinManager;
 	}
 
 	@Override
-	public void renderTileEntityAt(final DeathBoxTileEntity deathBox, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+	public void renderTileEntityAt(final IceTileEntity ice, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
 		ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin(new UUID(0, 0));
 
-		final GameProfile owner = deathBox.getOwner();
+		final GameProfile owner = ice.getOwner();
 
 		if (owner == null) {
-			DeathBox.getProxy().getLogger().warn("Rendering death box with no owner at %d,%d,%d!", x, y, z);
+			Ice.getProxy().getLogger().warn("Rendering ice with no owner at %d,%d,%d!", x, y, z);
 		} else {
 			final Map<Type, MinecraftProfileTexture> profileTextures = this.skinManager.loadSkinFromCache(owner);
 
@@ -44,7 +44,7 @@ public class DeathBoxRenderer extends TileEntitySpecialRenderer<DeathBoxTileEnti
 
 		GL11.glPushMatrix();
 
-		final float age = deathBox.getAge() + partialTicks;
+		final float age = ice.getAge() + partialTicks;
 		final double bobHeight = 0.5 + Math.sin(age * Math.PI / 50) / 4;
 
 		GL11.glDisable(GL11.GL_CULL_FACE);

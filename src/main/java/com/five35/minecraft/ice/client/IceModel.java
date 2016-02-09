@@ -1,14 +1,14 @@
-package com.five35.minecraft.deathbox.client;
+package com.five35.minecraft.ice.client;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class DeathBoxModel extends ModelBase {
+public class IceModel extends ModelBase {
 	private final ModelRenderer head;
 	private final ModelRenderer hat;
 
-	public DeathBoxModel() {
+	public IceModel() {
 		this.textureHeight = 64;
 		this.textureWidth = 64;
 

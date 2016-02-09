@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
@@ -16,9 +16,9 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class DeathBoxBlock extends Block implements ITileEntityProvider {
-	DeathBoxBlock() {
-		super(DeathBoxMaterial.getInstance());
+public class IceBlock extends Block implements ITileEntityProvider {
+	IceBlock() {
+		super(IceMaterial.getInstance());
 
 		this.disableStats();
 		this.setHardness(-1); // == unbreakable
@@ -41,7 +41,7 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int metadata) {
-		return new DeathBoxTileEntity();
+		return new IceTileEntity();
 	}
 
 	@Override
@@ -72,21 +72,21 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 		final TileEntity tileEntity = world.getTileEntity(position);
 
-		if (tileEntity instanceof DeathBoxTileEntity) {
-			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
-			final GameProfile owner = deathBox.getOwner();
+		if (tileEntity instanceof IceTileEntity) {
+			final IceTileEntity ice = (IceTileEntity) tileEntity;
+			final GameProfile owner = ice.getOwner();
 
-			if (DeathBox.getProxy().getConfig().canRecover(owner, player)) {
-				final String message = String.format("%s is recovering a death box left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
-				DeathBox.getProxy().getLogger().info(message);
+			if (Ice.getProxy().getConfig().canRecover(owner, player)) {
+				final String message = String.format("%s is recovering ice left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
+				Ice.getProxy().getLogger().info(message);
 
-				deathBox.recover(player);
+				ice.recover(player);
 
 				return true;
 			}
 
-			final String message = String.format("%s does not have permission to recover a death box left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
-			DeathBox.getProxy().getLogger().info(message);
+			final String message = String.format("%s does not have permission to recover ice left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
+			Ice.getProxy().getLogger().info(message);
 		}
 
 		return false;
@@ -100,25 +100,25 @@ public class DeathBoxBlock extends Block implements ITileEntityProvider {
 
 		final TileEntity tileEntity = world.getTileEntity(position);
 
-		if (tileEntity instanceof DeathBoxTileEntity) {
-			final DeathBoxTileEntity deathBox = (DeathBoxTileEntity) tileEntity;
-			final GameProfile owner = deathBox.getOwner();
+		if (tileEntity instanceof IceTileEntity) {
+			final IceTileEntity ice = (IceTileEntity) tileEntity;
+			final GameProfile owner = ice.getOwner();
 
-			if (DeathBox.getProxy().getConfig().canPop(owner, player)) {
-				final String message = String.format("%s is popping a death box left by %s.", owner.getName(), player.getCommandSenderEntity());
-				DeathBox.getProxy().getLogger().info(message);
+			if (Ice.getProxy().getConfig().canPop(owner, player)) {
+				final String message = String.format("%s is popping ice left by %s.", owner.getName(), player.getCommandSenderEntity());
+				Ice.getProxy().getLogger().info(message);
 
-				deathBox.pop();
+				ice.pop();
 			} else {
-				final String message = String.format("%s does not have permission to pop a death box left by %s.", owner.getName(), player.getCommandSenderEntity());
-				DeathBox.getProxy().getLogger().info(message);
+				final String message = String.format("%s does not have permission to pop ice left by %s.", owner.getName(), player.getCommandSenderEntity());
+				Ice.getProxy().getLogger().info(message);
 			}
 		}
 	}
 
 	@Override
 	public void onBlockExploded(final World world, final BlockPos position, final Explosion explosion) {
-		// DeathBox is unexplodable!
+		// Ice is unexplodable!
 	}
 
 	@Override

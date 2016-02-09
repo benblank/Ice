@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox.inventorymanager;
+package com.five35.minecraft.ice.inventorymanager;
 
 import baubles.api.BaublesApi;
 import java.util.ArrayList;

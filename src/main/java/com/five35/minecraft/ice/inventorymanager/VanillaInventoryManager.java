@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox.inventorymanager;
+package com.five35.minecraft.ice.inventorymanager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

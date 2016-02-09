@@ -1,8 +1,8 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
-import com.five35.minecraft.deathbox.inventorymanager.BaublesInventoryManager;
-import com.five35.minecraft.deathbox.inventorymanager.InventoryManagerRegistry;
-import com.five35.minecraft.deathbox.inventorymanager.VanillaInventoryManager;
+import com.five35.minecraft.ice.inventorymanager.BaublesInventoryManager;
+import com.five35.minecraft.ice.inventorymanager.InventoryManagerRegistry;
+import com.five35.minecraft.ice.inventorymanager.VanillaInventoryManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -12,15 +12,15 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 public class CommonProxy {
-	public static final DeathBoxBlock BLOCK = new DeathBoxBlock();
+	public static final IceBlock BLOCK = new IceBlock();
 
-	private DeathBoxConfiguration config;
+	private IceConfiguration config;
 
 	private InventoryManagerRegistry inventoryManagerRegistry;
 
 	private Logger logger;
 
-	public DeathBoxConfiguration getConfig() {
+	public IceConfiguration getConfig() {
 		return this.config;
 	}
 
@@ -53,10 +53,10 @@ public class CommonProxy {
 		}
 
 		this.logger.debug("Registering block.");
-		GameRegistry.registerBlock(CommonProxy.BLOCK, "deathbox");
-		GameRegistry.registerTileEntity(DeathBoxTileEntity.class, "deathbox");
+		GameRegistry.registerBlock(CommonProxy.BLOCK, "ice");
+		GameRegistry.registerTileEntity(IceTileEntity.class, "ice");
 
 		this.logger.debug("Reading config.");
-		this.config = new DeathBoxConfiguration(event.getSuggestedConfigurationFile());
+		this.config = new IceConfiguration(event.getSuggestedConfigurationFile());
 	}
 }

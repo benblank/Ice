@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
 import com.mojang.authlib.GameProfile;
 import java.io.File;
@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
 import net.minecraftforge.common.config.Configuration;
 
-public class DeathBoxConfiguration {
+public class IceConfiguration {
 	private static enum SecurityType {
 		NO, OWNER, TEAM, YES
 	}
@@ -16,7 +16,7 @@ public class DeathBoxConfiguration {
 			return SecurityType.valueOf(value.toUpperCase());
 		} catch (final IllegalArgumentException ex) {
 			final String message = String.format("Unrecognized security type '%s', defaulting to '%s'.", value, fallback);
-			DeathBox.getProxy().getLogger().warn(message, ex);
+			Ice.getProxy().getLogger().warn(message, ex);
 
 			return fallback;
 		}
@@ -51,31 +51,31 @@ public class DeathBoxConfiguration {
 	private final SecurityType popping;
 	private final SecurityType recovering;
 
-	DeathBoxConfiguration(final File file) {
+	IceConfiguration(final File file) {
 		final Configuration config = new Configuration(file);
 
-		config.setCategoryComment("security", "The allowable values for these actions are 'no' (completely disabled), 'owner' (only the player whose death created the box), 'team' (anyone on the dying player's team), or 'yes' (anyone).");
+		config.setCategoryComment("security", "The allowable values for these actions are 'no' (completely disabled), 'owner' (only the player whose death created the ice), 'team' (anyone on the dying player's team), or 'yes' (anyone).");
 
-		DeathBox.getProxy().getLogger().debug("Reading 'security.popping'.");
-		final String poppingValue = config.get("security", "popping", "team", "Whether death boxes can be 'popped' by hitting them.").getString();
-		this.popping = DeathBoxConfiguration.getSecurityType(poppingValue, SecurityType.TEAM);
+		Ice.getProxy().getLogger().debug("Reading 'security.popping'.");
+		final String poppingValue = config.get("security", "popping", "team", "Whether ice can be 'popped' by hitting them.").getString();
+		this.popping = IceConfiguration.getSecurityType(poppingValue, SecurityType.TEAM);
 
-		DeathBox.getProxy().getLogger().debug("Reading 'security.recovering'.");
-		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of death boxes can be recovered by right-clicking them.").getString();
-		this.recovering = DeathBoxConfiguration.getSecurityType(recoveringValue, SecurityType.OWNER);
+		Ice.getProxy().getLogger().debug("Reading 'security.recovering'.");
+		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of ice can be recovered by right-clicking them.").getString();
+		this.recovering = IceConfiguration.getSecurityType(recoveringValue, SecurityType.OWNER);
 
 		if (this.popping == SecurityType.NO && this.recovering == SecurityType.NO) {
-			DeathBox.getProxy().getLogger().warn("All actions disabled!  Death boxes cannot be removed without creative mode.  (That probably isn't what you want.)");
+			Ice.getProxy().getLogger().warn("All actions disabled!  Ice cannot be removed without creative mode.  (That probably isn't what you want.)");
 		}
 
 		config.save();
 	}
 
 	boolean canPop(final GameProfile owner, final EntityPlayer player) {
-		return DeathBoxConfiguration.hasAccess(this.popping, owner, player);
+		return IceConfiguration.hasAccess(this.popping, owner, player);
 	}
 
 	boolean canRecover(final GameProfile owner, final EntityPlayer player) {
-		return DeathBoxConfiguration.hasAccess(this.recovering, owner, player);
+		return IceConfiguration.hasAccess(this.recovering, owner, player);
 	}
 }

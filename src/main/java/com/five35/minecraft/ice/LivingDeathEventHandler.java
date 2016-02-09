@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,12 +9,12 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler {
-	private static boolean createDeathBox(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+	private static boolean createIce(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
 		final World world = player.worldObj;
 
 		if (world.setBlockState(position, CommonProxy.BLOCK.getDefaultState())) {
-			((DeathBoxTileEntity) world.getTileEntity(position)).store(player, inventories);
-			DeathBox.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
+			((IceTileEntity) world.getTileEntity(position)).store(player, inventories);
+			Ice.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
 
 			return true;
 		}
@@ -38,17 +38,17 @@ public class LivingDeathEventHandler {
 
 		final String playerName = player.getCommandSenderEntity().getName();
 		final BlockPos position = player.getPosition().up();
-		final Map<String, Map<Integer, ItemStack>> inventories = DeathBox.getProxy().getInventoryManagerRegistry().getAllInventories(player);
+		final Map<String, Map<Integer, ItemStack>> inventories = Ice.getProxy().getInventoryManagerRegistry().getAllInventories(player);
 
 		if (inventories.isEmpty()) {
 			final String message = String.format("Player %s died at %s in dimension %s, but had empty pockets.", playerName, position, world.provider.getDimensionName());
-			DeathBox.getProxy().getLogger().info(message);
+			Ice.getProxy().getLogger().info(message);
 
 			return;
 		}
 
 		final String message = String.format("Player %s died at %s in dimension %s, saving inventory.", playerName, position, world.provider.getDimensionName());
-		DeathBox.getProxy().getLogger().info(message);
+		Ice.getProxy().getLogger().info(message);
 
 		for (int delta = 0; delta < 16; delta++) {
 			for (int dx = -delta; dx < delta; dx++) {
@@ -57,7 +57,7 @@ public class LivingDeathEventHandler {
 						final BlockPos target = position.add(dx, dy, dz);
 
 						if (world.getBlockState(target).getBlock().isReplaceable(world, target)) {
-							if (LivingDeathEventHandler.createDeathBox(target, player, inventories)) {
+							if (LivingDeathEventHandler.createIce(target, player, inventories)) {
 								return;
 							}
 						}
@@ -66,6 +66,6 @@ public class LivingDeathEventHandler {
 			}
 		}
 
-		LivingDeathEventHandler.createDeathBox(position, player, inventories);
+		LivingDeathEventHandler.createIce(position, player, inventories);
 	}
 }

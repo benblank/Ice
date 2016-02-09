@@ -1,4 +1,4 @@
-package com.five35.minecraft.deathbox;
+package com.five35.minecraft.ice;
 
 import com.mojang.authlib.GameProfile;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
-public class DeathBoxTileEntity extends TileEntity {
+public class IceTileEntity extends TileEntity {
 	private long age;
 
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();
@@ -96,7 +96,7 @@ public class DeathBoxTileEntity extends TileEntity {
 	}
 
 	public void recover(final EntityPlayer player) {
-		final List<ItemStack> leftovers = DeathBox.getProxy().getInventoryManagerRegistry().injectInventories(player, this.inventories);
+		final List<ItemStack> leftovers = Ice.getProxy().getInventoryManagerRegistry().injectInventories(player, this.inventories);
 
 		this.dropStacks(leftovers);
 		this.worldObj.setBlockToAir(this.pos);
