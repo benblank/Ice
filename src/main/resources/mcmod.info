@@ -1,11 +1,11 @@
 [
 	{
 		"modid": "${modid}",
-		"name": "Death Box",
+		"name": "In Case of Emergency",
 		"description": "Keeps your inventory safe when you die.",
 		"version": "${version}",
 		"mcversion": "${mcversion}",
-		"url": "https://github.com/benblank/DeathBox",
+		"url": "https://github.com/benblank/${modid}",
 		"authorList": [ "Ben \"535\" Blank" ],
 		"requiredMods": [ "Forge" ],
 		"useDependencyInformation": "true"
