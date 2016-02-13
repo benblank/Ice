@@ -1,0 +1,41 @@
+# In Case of Emergency
+
+There's long been a desire for a "death mode" in Minecraft which falls somewhere between the default behavior of dropping everthing on the ground and the `keepInventory` gamemode.  Traditionally, this is done by storing all your items in a block with an inventory — a "death chest", a gravestone, or the like.
+
+In Case of Emergency offers a new alternative, with cool new features:
+
+* ICE not only stores your items, but *also their position within your inventory*, allowing you to quickly re-equip everything, rather than having to pick it all up off the ground.
+* ICE understand's Minecraft's team system, and can be configured to allow teammates to retrieve your inventory for you when it's too dangerous to get yourself.
+
+## How to Use
+
+1. Install by dropping the `.jar` file into your mods folder (requires [Forge](http://www.minecraftforge.net/)).
+2. Play Minecraft.
+3. Die.  (In lava, for example.)
+4. Run back to your "death marker" — a spinning copy of your head.
+5. Right-click the death marker to re-equip everything!  (And none of your items were at risk of falling in the lava!)
+
+## Configuration
+
+By default, ICE will only allow you, the player who died, to re-equip your items by right-clicking on your death marker.  Anyone on your team, however, can "pop" your death marker and drop all the items on the ground by left-clicking.  Anyone not on your team **cannot interact with your death marker at all**.  It's unbreakable and unexplodable.
+
+When you play Minecraft for the first time after installing ICE, a configuration file is created at `<.minecraft>/config/Ice.cfg`.  The settings and possible values are explained in that file:
+
+    # Configuration file
+    
+    ##########################################################################################################
+    # security
+    #--------------------------------------------------------------------------------------------------------#
+    # The allowable values for these actions are 'no' (completely disabled), 'owner' (only the player whose
+    # death created the death marker), 'team' (anyone on the dying player's team), or 'yes' (anyone).
+    ##########################################################################################################
+    
+    security {
+        # Whether death markers can be 'popped' by hitting them.
+        S:popping=team
+    
+        # Whether the contents of death markers can be recovered by right-clicking them.
+        S:recovering=owner
+    }
+
+Note that if you set both to `no`, death markers will only be clearable by players in creative mode!  (So don't do that.)
