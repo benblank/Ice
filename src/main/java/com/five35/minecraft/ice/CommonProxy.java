@@ -44,8 +44,7 @@ public class CommonProxy {
 
 		this.logger.debug("Registering inventory managers.");
 		this.inventoryManagerRegistry = new InventoryManagerRegistry(this.logger);
-		this.inventoryManagerRegistry.register(new VanillaInventoryManager(false));
-		this.inventoryManagerRegistry.register(new VanillaInventoryManager(true));
+		this.inventoryManagerRegistry.register(new VanillaInventoryManager());
 
 		if (Loader.isModLoaded("Baubles")) {
 			this.logger.info("Integrating with Baubles.");
