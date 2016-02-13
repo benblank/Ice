@@ -19,7 +19,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
-public class IceTileEntity extends TileEntity {
+public class DeathMarkerTileEntity extends TileEntity {
 	private long age;
 
 	private final Map<String, Map<Integer, ItemStack>> inventories = new HashMap<>();

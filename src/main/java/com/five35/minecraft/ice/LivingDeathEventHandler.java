@@ -9,11 +9,11 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler {
-	private static boolean createIce(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+	private static boolean createDeathMarker(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
 		final World world = player.worldObj;
 
 		if (world.setBlockState(position, CommonProxy.BLOCK.getDefaultState())) {
-			((IceTileEntity) world.getTileEntity(position)).store(player, inventories);
+			((DeathMarkerTileEntity) world.getTileEntity(position)).store(player, inventories);
 			Ice.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
 
 			return true;
@@ -57,7 +57,7 @@ public class LivingDeathEventHandler {
 						final BlockPos target = position.add(dx, dy, dz);
 
 						if (world.getBlockState(target).getBlock().isReplaceable(world, target)) {
-							if (LivingDeathEventHandler.createIce(target, player, inventories)) {
+							if (LivingDeathEventHandler.createDeathMarker(target, player, inventories)) {
 								return;
 							}
 						}
@@ -66,6 +66,6 @@ public class LivingDeathEventHandler {
 			}
 		}
 
-		LivingDeathEventHandler.createIce(position, player, inventories);
+		LivingDeathEventHandler.createDeathMarker(position, player, inventories);
 	}
 }

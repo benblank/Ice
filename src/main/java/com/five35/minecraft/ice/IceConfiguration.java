@@ -57,15 +57,15 @@ public class IceConfiguration {
 		config.setCategoryComment("security", "The allowable values for these actions are 'no' (completely disabled), 'owner' (only the player whose death created the ice), 'team' (anyone on the dying player's team), or 'yes' (anyone).");
 
 		Ice.getProxy().getLogger().debug("Reading 'security.popping'.");
-		final String poppingValue = config.get("security", "popping", "team", "Whether ice can be 'popped' by hitting them.").getString();
+		final String poppingValue = config.get("security", "popping", "team", "Whether death markers can be 'popped' by hitting them.").getString();
 		this.popping = IceConfiguration.getSecurityType(poppingValue, SecurityType.TEAM);
 
 		Ice.getProxy().getLogger().debug("Reading 'security.recovering'.");
-		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of ice can be recovered by right-clicking them.").getString();
+		final String recoveringValue = config.get("security", "recovering", "owner", "Whether the contents of death markers can be recovered by right-clicking them.").getString();
 		this.recovering = IceConfiguration.getSecurityType(recoveringValue, SecurityType.OWNER);
 
 		if (this.popping == SecurityType.NO && this.recovering == SecurityType.NO) {
-			Ice.getProxy().getLogger().warn("All actions disabled!  Ice cannot be removed without creative mode.  (That probably isn't what you want.)");
+			Ice.getProxy().getLogger().warn("All actions disabled!  Death markers cannot be removed without creative mode.  (That probably isn't what you want.)");
 		}
 
 		config.save();

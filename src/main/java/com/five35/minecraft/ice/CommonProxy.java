@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 public class CommonProxy {
-	public static final IceBlock BLOCK = new IceBlock();
+	public static final DeathMarkerBlock BLOCK = new DeathMarkerBlock();
 
 	private IceConfiguration config;
 
@@ -53,8 +53,8 @@ public class CommonProxy {
 		}
 
 		this.logger.debug("Registering block.");
-		GameRegistry.registerBlock(CommonProxy.BLOCK, "ice");
-		GameRegistry.registerTileEntity(IceTileEntity.class, "ice");
+		GameRegistry.registerBlock(CommonProxy.BLOCK, "deathmarker");
+		GameRegistry.registerTileEntity(DeathMarkerTileEntity.class, "deathmarker");
 
 		this.logger.debug("Reading config.");
 		this.config = new IceConfiguration(event.getSuggestedConfigurationFile());

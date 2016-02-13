@@ -4,11 +4,11 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class IceModel extends ModelBase {
+public class DeathMarkerModel extends ModelBase {
 	private final ModelRenderer head;
 	private final ModelRenderer hat;
 
-	public IceModel() {
+	public DeathMarkerModel() {
 		this.textureHeight = 64;
 		this.textureWidth = 64;
 

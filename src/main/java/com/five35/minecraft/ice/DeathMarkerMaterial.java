@@ -3,14 +3,14 @@ package com.five35.minecraft.ice;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
-final class IceMaterial extends Material {
-	private static final IceMaterial INSTANCE = new IceMaterial();
+final class DeathMarkerMaterial extends Material {
+	private static final DeathMarkerMaterial INSTANCE = new DeathMarkerMaterial();
 
-	static IceMaterial getInstance() {
-		return IceMaterial.INSTANCE;
+	static DeathMarkerMaterial getInstance() {
+		return DeathMarkerMaterial.INSTANCE;
 	}
 
-	private IceMaterial() {
+	private DeathMarkerMaterial() {
 		super(MapColor.airColor);
 
 		this.setImmovableMobility();

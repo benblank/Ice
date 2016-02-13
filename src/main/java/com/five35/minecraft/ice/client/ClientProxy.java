@@ -1,7 +1,7 @@
 package com.five35.minecraft.ice.client;
 
 import com.five35.minecraft.ice.CommonProxy;
-import com.five35.minecraft.ice.IceTileEntity;
+import com.five35.minecraft.ice.DeathMarkerTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -14,6 +14,6 @@ public class ClientProxy extends CommonProxy {
 
 		final SkinManager skinManager = Minecraft.getMinecraft().getSkinManager();
 
-		ClientRegistry.bindTileEntitySpecialRenderer(IceTileEntity.class, new IceRenderer(skinManager));
+		ClientRegistry.bindTileEntitySpecialRenderer(DeathMarkerTileEntity.class, new DeathMarkerRenderer(skinManager));
 	}
 }
