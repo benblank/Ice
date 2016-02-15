@@ -55,3 +55,21 @@ processResources {
 		exclude substitutionTargets
 	}
 }
+
+task apiZip(type: Zip) {
+	classifier = "api"
+
+	from(sourceSets.main.java) {
+		include "com/five35/minecraft/ice/api/**"
+	}
+}
+
+task deobfJar(type: Jar) {
+	classifier = "deobf"
+	from sourceSets.main.output
+}
+
+artifacts {
+	archives apiZip
+	archives deobfJar
+}
