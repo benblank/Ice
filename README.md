@@ -1,6 +1,6 @@
 # In Case of Emergency
 
-There's long been a desire for a "death mode" in Minecraft which falls somewhere between the default behavior of dropping everthing on the ground and the `keepInventory` gamemode.  Traditionally, this is done by storing all your items in a block with an inventory — a "death chest", a gravestone, or the like.
+There's long been a desire for a "death mode" in Minecraft which falls somewhere between the default behavior of dropping everything on the ground and the `keepInventory` gamemode.  Traditionally, this is done by storing all your items in a block with an inventory — a "death chest", a gravestone, or the like.
 
 In Case of Emergency offers a new alternative, with cool new features:
 
@@ -9,7 +9,7 @@ In Case of Emergency offers a new alternative, with cool new features:
 
 ## How to Use
 
-1. Install by dropping the `.jar` file into your mods folder (requires [Forge](http://www.minecraftforge.net/)).
+1. Install by dropping [the `.jar` file](https://github.com/benblank/Ice/releases/latest) into your mods folder (requires [Forge](http://www.minecraftforge.net/)).
 2. Play Minecraft.
 3. Die.  (In lava, for example.)
 4. Run back to your "death marker" — a spinning copy of your head.
@@ -39,3 +39,16 @@ When you play Minecraft for the first time after installing ICE, a configuration
     }
 
 Note that if you set both to `no`, death markers will only be clearable by players in creative mode!  (So don't do that.)
+
+## Mod Support
+
+ICE can support non-vanilla inventories through dedicated mod support.  Currently, the supported mods are:
+
+* [Baubles](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1294623)
+* More coming soon?  Open an [issue](https://github.com/benblank/Ice/issues) to request support for your favorite mod!
+
+### Public API
+
+Alternatively, mods can add their own support for ICE using its public API.  This is done by creating a class implementing the `InventoryManager` interface (the simplest way to do this is by extending `GeneralInventoryManager`).  Take a look at [`BaublesInventoryManager`](src/main/java/com/five35/minecraft/ice/BaublesInventoryManager.java) to see how easy this can be!
+
+Once your inventory manager has been created, register it with `InventoryManagerRegistry.register(...)`.  That's all it takes to add support for your mod to ICE's death markers.
