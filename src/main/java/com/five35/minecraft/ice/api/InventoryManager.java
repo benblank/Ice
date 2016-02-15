@@ -1,4 +1,4 @@
-package com.five35.minecraft.ice.inventorymanager;
+package com.five35.minecraft.ice.api;
 
 import java.util.List;
 import java.util.Map;

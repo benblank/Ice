@@ -1,4 +1,4 @@
-package com.five35.minecraft.ice.inventorymanager;
+package com.five35.minecraft.ice.api;
 
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;

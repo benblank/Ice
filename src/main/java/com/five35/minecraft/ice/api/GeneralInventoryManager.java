@@ -1,11 +1,10 @@
-package com.five35.minecraft.ice.inventorymanager;
+package com.five35.minecraft.ice.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

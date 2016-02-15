@@ -1,6 +1,7 @@
-package com.five35.minecraft.ice.inventorymanager;
+package com.five35.minecraft.ice;
 
 import baubles.api.BaublesApi;
+import com.five35.minecraft.ice.api.GeneralInventoryManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 

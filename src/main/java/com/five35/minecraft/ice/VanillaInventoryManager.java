@@ -1,5 +1,6 @@
-package com.five35.minecraft.ice.inventorymanager;
+package com.five35.minecraft.ice;
 
+import com.five35.minecraft.ice.api.GeneralInventoryManager;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;

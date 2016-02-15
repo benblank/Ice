@@ -1,7 +1,7 @@
 package com.five35.minecraft.ice.client;
 
-import com.five35.minecraft.ice.Ice;
 import com.five35.minecraft.ice.DeathMarkerTileEntity;
+import com.five35.minecraft.ice.Ice;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
