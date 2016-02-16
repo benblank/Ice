@@ -1,0 +1,9 @@
+{
+	"homepage": "https://github.com/benblank/Ice/releases",
+	"promos": {
+		"1.8.9-recommended": "1.0"
+	},
+	"1.8.9": {
+		"1.0": "Initial release!  Woo!"
+	}
+}
