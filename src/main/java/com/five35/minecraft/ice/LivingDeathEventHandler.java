@@ -60,9 +60,9 @@ public class LivingDeathEventHandler {
 		Ice.getProxy().getLogger().info(message);
 
 		for (int delta = 0; delta < 16; delta++) {
-			for (int dx = -delta; dx < delta; dx++) {
-				for (int dy = -delta; dy < delta; dy++) {
-					for (int dz = -delta; dz < delta; dz++) {
+			for (int dx = -delta; dx <= delta; dx++) {
+				for (int dy = -delta; dy <= delta; dy++) {
+					for (int dz = -delta; dz <= delta; dz++) {
 						final BlockPos target = position.add(dx, dy, dz);
 
 						if (world.getBlockState(target).getBlock().isReplaceable(world, target)) {
