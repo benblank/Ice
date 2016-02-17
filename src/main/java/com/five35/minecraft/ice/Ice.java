@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "Ice", dependencies = "after:Baubles", updateJSON = "https://github.com/benblank/Ice/blob/master/update.json")
+@Mod(modid = "Ice", dependencies = "after:Baubles", updateJSON = "https://raw.githubusercontent.com/benblank/Ice/master/update.json")
 public class Ice {
 	@Instance
 	private static Ice instance;
