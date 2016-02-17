@@ -9,11 +9,20 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler {
-	private static boolean createDeathMarker(final BlockPos position, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
-		final World world = player.worldObj;
+	private static BlockPos clampPosition(final BlockPos position) {
+		final int x = Math.max(-30000000, Math.min(position.getX(), 30000000));
+		final int y = Math.max(0, Math.min(position.getY(), 255));
+		final int z = Math.max(-30000000, Math.min(position.getZ(), 30000000));
 
-		if (world.setBlockState(position, CommonProxy.BLOCK.getDefaultState())) {
-			((DeathMarkerTileEntity) world.getTileEntity(position)).store(player, inventories);
+		return new BlockPos(x, y, z);
+	}
+
+	private static boolean createDeathMarker(final BlockPos requestedPosition, final EntityPlayer player, final Map<String, Map<Integer, ItemStack>> inventories) {
+		final World world = player.worldObj;
+		final BlockPos actualPosition = LivingDeathEventHandler.clampPosition(requestedPosition);
+
+		if (world.setBlockState(actualPosition, CommonProxy.BLOCK.getDefaultState())) {
+			((DeathMarkerTileEntity) world.getTileEntity(actualPosition)).store(player, inventories);
 			Ice.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
 
 			return true;
