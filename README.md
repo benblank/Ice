@@ -5,7 +5,7 @@ There's long been a desire for a "death mode" in Minecraft which falls somewhere
 In Case of Emergency offers a new alternative, with cool new features:
 
 * ICE not only stores your items, but *also their position within your inventory*, allowing you to quickly re-equip everything, rather than having to pick it all up off the ground.
-* ICE understand's Minecraft's team system, and can be configured to allow teammates to retrieve your inventory for you when it's too dangerous to get yourself.
+* ICE understands Minecraft's team system, and can be configured to allow teammates to retrieve your inventory for you when it's too dangerous to get yourself.
 
 ## How to Use
 
