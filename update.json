@@ -1,9 +1,10 @@
 {
 	"homepage": "https://github.com/benblank/Ice/releases",
 	"promos": {
-		"1.8.9-recommended": "1.1"
+		"1.8.9-recommended": "1.1.1"
 	},
 	"1.8.9": {
+		"1.1.1": "* now handles void deaths\n* markers now appear closer to the actual block where you died",
 		"1.1": "* added Forge updater support\n* improved API",
 		"1.0": "Initial release!  Woo!"
 	}
