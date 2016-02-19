@@ -34,11 +34,14 @@ public abstract class GeneralInventoryManager implements InventoryManager {
 			leftovers.addAll(slots.values());
 		} else {
 			for (final Entry<Integer, ItemStack> entry : slots.entrySet()) {
-				if (inventory.getStackInSlot(entry.getKey()) == null) {
-					inventory.setInventorySlotContents(entry.getKey(), entry.getValue());
-				} else {
-					leftovers.add(entry.getValue());
+				final Integer slot = entry.getKey();
+				final ItemStack playerStack = inventory.getStackInSlot(slot);
+
+				if (playerStack != null) {
+					leftovers.add(playerStack);
 				}
+
+				inventory.setInventorySlotContents(slot, entry.getValue());
 			}
 
 			inventory.markDirty();
