@@ -18,6 +18,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 
 public class DeathMarkerTileEntity extends TileEntity {
 	private long age;
@@ -26,14 +27,20 @@ public class DeathMarkerTileEntity extends TileEntity {
 
 	private GameProfile owner;
 
-	private void dropStacks(final Collection<ItemStack> stacks) {
+	private void dropStacks(BlockPos position, final Collection<ItemStack> stacks, boolean noPickupDelay) {
 		for (final ItemStack stack : stacks) {
 			final Random random = this.worldObj.rand;
-			final double x = random.nextDouble() * 0.5 + this.pos.getX();
-			final double y = random.nextDouble() * 0.5 + this.pos.getY();
-			final double z = random.nextDouble() * 0.5 + this.pos.getZ();
+			final double x = random.nextDouble() * 0.5 + position.getX();
+			final double y = random.nextDouble() * 0.5 + position.getY();
+			final double z = random.nextDouble() * 0.5 + position.getZ();
 
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, x, y, z, stack));
+			final EntityItem entity = new EntityItem(this.worldObj, x, y, z, stack);
+
+			if (noPickupDelay) {
+				entity.setNoPickupDelay();
+			}
+
+			this.worldObj.spawnEntityInWorld(entity);
 		}
 	}
 
@@ -61,7 +68,7 @@ public class DeathMarkerTileEntity extends TileEntity {
 
 	public void pop() {
 		for (final Map<Integer, ItemStack> slots : this.inventories.values()) {
-			this.dropStacks(slots.values());
+			this.dropStacks(this.pos, slots.values(), false);
 		}
 
 		this.worldObj.setBlockToAir(this.pos);
@@ -98,7 +105,7 @@ public class DeathMarkerTileEntity extends TileEntity {
 	public void recover(final EntityPlayer player) {
 		final List<ItemStack> leftovers = Ice.getProxy().getInventoryManagerRegistry().injectInventories(player, this.inventories);
 
-		this.dropStacks(leftovers);
+		this.dropStacks(player.getPosition(), leftovers, true);
 		this.worldObj.setBlockToAir(this.pos);
 	}
 
