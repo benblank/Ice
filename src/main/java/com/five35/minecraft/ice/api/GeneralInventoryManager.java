@@ -35,13 +35,18 @@ public abstract class GeneralInventoryManager implements InventoryManager {
 		} else {
 			for (final Entry<Integer, ItemStack> entry : slots.entrySet()) {
 				final Integer slot = entry.getKey();
+				final ItemStack storedStack = entry.getValue();
 				final ItemStack playerStack = inventory.getStackInSlot(slot);
 
 				if (playerStack != null) {
-					leftovers.add(playerStack);
+					InventoryManager.mergeStacks(playerStack, storedStack);
+
+					if (playerStack.stackSize > 0) {
+						leftovers.add(playerStack);
+					}
 				}
 
-				inventory.setInventorySlotContents(slot, entry.getValue());
+				inventory.setInventorySlotContents(slot, storedStack);
 			}
 
 			inventory.markDirty();

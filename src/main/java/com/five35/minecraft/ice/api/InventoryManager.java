@@ -8,6 +8,52 @@ import net.minecraft.item.ItemStack;
 
 public interface InventoryManager {
 	/**
+	 * Attempts to merge two item stacks.
+	 *
+	 * Aborts if the items, stackability, metadata, or tags do not match.
+	 *
+	 * @param source The stack to move items from.
+	 * @param target The stack to move items to.
+	 * @return True if the stacks were altered; false, otherwise.
+	 */
+	public static void mergeStacks(final ItemStack source, final ItemStack target) {
+		if (source == null || target == null) {
+			return;
+		}
+
+		if (!source.isItemEqual(target)) {
+			return;
+		}
+
+		if (!source.isStackable() || !target.isStackable()) {
+			return;
+		}
+
+		// Only need to check one stack's getHasSubtypes, as we've already
+		// established both stacks have the same item.
+		if (source.getItem().getHasSubtypes() && source.getMetadata() != target.getMetadata()) {
+			return;
+		}
+
+		if (!ItemStack.areItemStackTagsEqual(source, target)) {
+			return;
+		}
+
+		final int targetMaxStackSize = target.getMaxStackSize();
+		final int total = source.stackSize + target.stackSize;
+
+		if (total > targetMaxStackSize) {
+			target.stackSize = targetMaxStackSize;
+		} else {
+			target.stackSize = total;
+		}
+
+		source.stackSize = total - target.stackSize;
+
+		return;
+	}
+
+	/**
 	 * Empty all slots in the managed inventory.
 	 *
 	 * @param player the player whose managed inventory should be cleared
