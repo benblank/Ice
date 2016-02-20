@@ -1,9 +1,10 @@
 {
 	"homepage": "https://github.com/benblank/Ice/releases",
 	"promos": {
-		"1.8.9-recommended": "1.1.2"
+		"1.8.9-recommended": "1.1.3"
 	},
 	"1.8.9": {
+		"1.1.3": "* death markers no longer suffocate anything",
 		"1.1.2": "* fixed the auto-updater (sorry about that)\n* greatly improved the handling of leftover items when recovering a death marker\n* fixed a couple of other bugs",
 		"1.1.1": "* now handles void deaths\n* markers now appear closer to the actual block where you died",
 		"1.1": "* added Forge updater support\n* improved API",
