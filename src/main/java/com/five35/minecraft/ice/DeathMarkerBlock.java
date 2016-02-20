@@ -6,6 +6,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -15,6 +16,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 
 public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 	DeathMarkerBlock() {
@@ -73,14 +75,14 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 		final TileEntity tileEntity = world.getTileEntity(position);
 
 		if (tileEntity instanceof DeathMarkerTileEntity) {
-			final DeathMarkerTileEntity ice = (DeathMarkerTileEntity) tileEntity;
-			final GameProfile owner = ice.getOwner();
+			final DeathMarkerTileEntity deathMarker = (DeathMarkerTileEntity) tileEntity;
+			final GameProfile owner = deathMarker.getOwner();
 
 			if (Ice.getProxy().getConfig().canRecover(owner, player)) {
 				final String message = String.format("%s is recovering a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
 
-				ice.recover(player);
+				deathMarker.recover(player);
 
 				return true;
 			}
@@ -101,14 +103,14 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 		final TileEntity tileEntity = world.getTileEntity(position);
 
 		if (tileEntity instanceof DeathMarkerTileEntity) {
-			final DeathMarkerTileEntity ice = (DeathMarkerTileEntity) tileEntity;
-			final GameProfile owner = ice.getOwner();
+			final DeathMarkerTileEntity deathMarker = (DeathMarkerTileEntity) tileEntity;
+			final GameProfile owner = deathMarker.getOwner();
 
 			if (Ice.getProxy().getConfig().canPop(owner, player)) {
 				final String message = String.format("%s is popping a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
 
-				ice.pop();
+				deathMarker.pop();
 			} else {
 				final String message = String.format("%s does not have permission to pop a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
@@ -123,6 +125,18 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 
 	@Override
 	public boolean removedByPlayer(final World world, final BlockPos position, final EntityPlayer player, final boolean willHarvest) {
+		if (player instanceof EntityPlayerMP && ((EntityPlayerMP) player).theItemInWorldManager.getGameType() == WorldSettings.GameType.CREATIVE) {
+			final DeathMarkerTileEntity deathMarker = (DeathMarkerTileEntity) world.getTileEntity(position);
+			final GameProfile owner = deathMarker.getOwner();
+
+			final String message = String.format("%s is clearing a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
+			Ice.getProxy().getLogger().info(message);
+
+			world.setBlockToAir(position);
+
+			return true;
+		}
+
 		return false;
 	}
 }
