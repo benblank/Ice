@@ -22,6 +22,11 @@ final class DeathMarkerMaterial extends Material {
 	}
 
 	@Override
+	public boolean blocksMovement() {
+		return false;
+	}
+
+	@Override
 	public boolean isSolid() {
 		return false;
 	}
