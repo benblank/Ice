@@ -77,7 +77,7 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 			final GameProfile owner = ice.getOwner();
 
 			if (Ice.getProxy().getConfig().canRecover(owner, player)) {
-				final String message = String.format("%s is recovering a death marker left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
+				final String message = String.format("%s is recovering a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
 
 				ice.recover(player);
@@ -85,7 +85,7 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 				return true;
 			}
 
-			final String message = String.format("%s does not have permission to recover a death marker left by %s.", owner.getName(), player.getCommandSenderEntity().getName());
+			final String message = String.format("%s does not have permission to recover a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 			Ice.getProxy().getLogger().info(message);
 		}
 
@@ -105,12 +105,12 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 			final GameProfile owner = ice.getOwner();
 
 			if (Ice.getProxy().getConfig().canPop(owner, player)) {
-				final String message = String.format("%s is popping a death marker left by %s.", owner.getName(), player.getCommandSenderEntity());
+				final String message = String.format("%s is popping a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
 
 				ice.pop();
 			} else {
-				final String message = String.format("%s does not have permission to pop a death marker left by %s.", owner.getName(), player.getCommandSenderEntity());
+				final String message = String.format("%s does not have permission to pop a death marker left by %s.", player.getCommandSenderEntity().getName(), owner.getName());
 				Ice.getProxy().getLogger().info(message);
 			}
 		}
