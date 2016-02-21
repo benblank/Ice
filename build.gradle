@@ -24,6 +24,7 @@ targetCompatibility = 1.8
 
 dependencies {
 	compile files("../Baubles-1.8.9-1.1.3.0-deobf.jar")
+	compile files("../CosmeticArmorReworked-1.8.9-v1b-deobf.jar")
 }
 
 minecraft {

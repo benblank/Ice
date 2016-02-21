@@ -49,6 +49,11 @@ public class CommonProxy {
 			this.inventoryManagerRegistry.register(new BaublesInventoryManager());
 		}
 
+		if (Loader.isModLoaded("cosmeticarmorreworked")) {
+			this.logger.info("Integrating with CosmeticArmorReworked.");
+			this.inventoryManagerRegistry.register(new CosmeticArmorReworkedInventoryManager());
+		}
+
 		this.logger.debug("Registering block.");
 		GameRegistry.registerBlock(CommonProxy.BLOCK, "deathmarker");
 		GameRegistry.registerTileEntity(DeathMarkerTileEntity.class, "deathmarker");
