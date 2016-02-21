@@ -45,6 +45,7 @@ Note that if you set both to `no`, death markers will only be clearable by playe
 ICE can support non-vanilla inventories through dedicated mod support.  Currently, the supported mods are:
 
 * [Baubles](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1294623)
+* [CosmeticArmorReworked](http://minecraft.curseforge.com/projects/cosmetic-armor-reworked)
 * More coming soon?  Open an [issue](https://github.com/benblank/Ice/issues) to request support for your favorite mod!
 
 ### Public API
