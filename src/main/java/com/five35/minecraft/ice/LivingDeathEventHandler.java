@@ -59,7 +59,7 @@ public class LivingDeathEventHandler {
 			return;
 		}
 
-		for (int delta = 0; delta < 16; delta++) {
+		for (int delta = 0; delta < 4; delta++) {
 			for (int dx = -delta; dx <= delta; dx++) {
 				for (int dy = -delta; dy <= delta; dy++) {
 					for (int dz = -delta; dz <= delta; dz++) {
