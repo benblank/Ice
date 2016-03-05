@@ -25,6 +25,9 @@ public class LivingDeathEventHandler {
 			((DeathMarkerTileEntity) world.getTileEntity(actualPosition)).store(player, inventories);
 			Ice.getProxy().getInventoryManagerRegistry().clearInventories(player, inventories.keySet());
 
+			final String message = String.format("Stored inventory for player %s at %s in dimension %s.", player.getCommandSenderEntity().getName(), actualPosition, world.provider.getDimensionName());
+			Ice.getProxy().getLogger().info(message);
+
 			return true;
 		}
 
@@ -55,9 +58,6 @@ public class LivingDeathEventHandler {
 
 			return;
 		}
-
-		final String message = String.format("Player %s died at %s in dimension %s, saving inventory.", playerName, position, world.provider.getDimensionName());
-		Ice.getProxy().getLogger().info(message);
 
 		for (int delta = 0; delta < 16; delta++) {
 			for (int dx = -delta; dx <= delta; dx++) {
