@@ -62,8 +62,18 @@ public class DeathMarkerBlock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
+	public boolean isFullCube() {
+		return false;
+	}
+
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
+	}
+
+	@Override
+	public boolean isPassable(IBlockAccess world, BlockPos position) {
+		return true;
 	}
 
 	@Override
